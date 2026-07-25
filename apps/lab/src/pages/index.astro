@@ -36,26 +36,23 @@ const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySort
 			<div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
 				{
 					featured.map((specimen) => (
-						<a
+						<SpecimenCard
+							id={specimen.data.specimenId}
+							year={specimen.data.year}
+							status={specimen.data.status}
+							stack={specimen.data.stack}
+							title={specimen.data.title}
+							description={specimen.data.tagline}
 							href={`/specimen/${specimen.id}`}
-							class="block rounded-lg outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+							linkLabel={`${specimen.data.title} — view case study`}
 						>
-							<SpecimenCard
-								id={specimen.data.specimenId}
-								year={specimen.data.year}
-								status={specimen.data.status}
-								stack={specimen.data.stack}
-								title={specimen.data.title}
-								description={specimen.data.tagline}
+							<div
+								slot="demo"
+								class="flex h-full min-h-24 items-center justify-center font-mono text-xs uppercase tracking-widest text-ink/40"
 							>
-								<div
-									slot="demo"
-									class="flex h-full min-h-24 items-center justify-center font-mono text-xs uppercase tracking-widest text-ink/40"
-								>
-									Live demo — coming in the next build
-								</div>
-							</SpecimenCard>
-						</a>
+								Live demo — coming in the next build
+							</div>
+						</SpecimenCard>
 					))
 				}
 			</div>
@@ -71,26 +68,23 @@ const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySort
 			<div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
 				{
 					inTheLab.map((specimen) => (
-						<a
+						<SpecimenCard
+							id={specimen.data.specimenId}
+							year={specimen.data.year}
+							status={specimen.data.status}
+							stack={specimen.data.stack}
+							title={specimen.data.title}
+							description={specimen.data.tagline}
 							href={`/specimen/${specimen.id}`}
-							class="block rounded-lg outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+							linkLabel={`${specimen.data.title} — view case study`}
 						>
-							<SpecimenCard
-								id={specimen.data.specimenId}
-								year={specimen.data.year}
-								status={specimen.data.status}
-								stack={specimen.data.stack}
-								title={specimen.data.title}
-								description={specimen.data.tagline}
+							<div
+								slot="demo"
+								class="flex h-full min-h-24 items-center justify-center font-mono text-xs uppercase tracking-widest text-ink/40"
 							>
-								<div
-									slot="demo"
-									class="flex h-full min-h-24 items-center justify-center font-mono text-xs uppercase tracking-widest text-ink/40"
-								>
-									Live demo — coming in the next build
-								</div>
-							</SpecimenCard>
-						</a>
+								Live demo — coming in the next build
+							</div>
+						</SpecimenCard>
 					))
 				}
 			</div>
