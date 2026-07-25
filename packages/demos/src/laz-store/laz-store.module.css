@@ -1,0 +1,1171 @@
+/*
+  Scoped design tokens for the LAZ Store recreation ONLY.
+  These colors belong to the original Android app's branding and must never be
+  added to @zaidj/ui — see packages/ui/src/tokens.css for The Lab's own palette.
+*/
+:global(.laz-store-root) {
+  --laz-red: #e8231a;
+  --laz-bg: #0b0b0d;
+  --laz-surface: #1a1418;
+  --laz-border: #3a2a2c;
+  --laz-text: #f5f5f5;
+  --laz-muted: #9b9b9b;
+  --laz-success: #3dbe5c;
+  --laz-summary: #6b4fa0;
+  --laz-summary-text: #e9e4f3;
+  --laz-hatch-a: #221b1e;
+  --laz-hatch-b: #2a2225;
+  --laz-hatch-label: #6b6265;
+  --laz-frame-border: #1c1c1e;
+  --laz-font: Roboto, Arial, sans-serif;
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(210px);
+    opacity: 0.9;
+  }
+}
+
+@keyframes pulseRing {
+  0% {
+    box-shadow: 0 0 0 0 rgba(232, 35, 26, 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 14px rgba(232, 35, 26, 0);
+  }
+}
+
+/* ---------- phone frame ---------- */
+
+.phone {
+  position: relative;
+  width: 412px;
+  height: 915px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 38px;
+  border: 8px solid var(--laz-frame-border);
+  background: var(--laz-bg);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  font-family: var(--laz-font);
+}
+
+.phoneCamera {
+  background: #000000;
+}
+
+.cameraBg {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(115deg, #141014, #141014 14px, #1b1418 14px, #1b1418 28px);
+}
+
+/* ---------- status bar ---------- */
+
+.statusBar {
+  height: 28px;
+  background: var(--laz-bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  font-size: 12px;
+  color: var(--laz-text);
+  font-weight: 500;
+}
+
+.statusIcons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.batteryLabel {
+  font-size: 11px;
+}
+
+.statusBarOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  font-size: 12px;
+  color: #ffffff;
+  font-weight: 500;
+  z-index: 5;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- app bar ---------- */
+
+.appBar {
+  height: 56px;
+  background: var(--laz-red);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 12px;
+}
+
+.appBarTitleLg {
+  font-size: 19px;
+  font-weight: 900;
+  color: #ffffff;
+  flex: 1;
+  letter-spacing: 0.02em;
+}
+
+.appBarTitle {
+  font-size: 18px;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.appBarTitleFlex {
+  composes: appBarTitle;
+  flex: 1;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+  border-radius: 6px;
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid var(--laz-red);
+  outline-offset: 2px;
+}
+
+.iconStatic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- hatch placeholder (PartImage) ---------- */
+
+.hatch {
+  background: repeating-linear-gradient(45deg, var(--laz-hatch-a), var(--laz-hatch-a) 10px, var(--laz-hatch-b) 10px, var(--laz-hatch-b) 20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--laz-hatch-label);
+  font-size: 10px;
+  font-family: monospace;
+  text-align: center;
+}
+
+.hatchGrid {
+  composes: hatch;
+  height: 110px;
+  padding: 6px;
+}
+
+.hatchResult {
+  composes: hatch;
+  height: 180px;
+  border-radius: 12px;
+  font-size: 11px;
+  margin-bottom: 16px;
+}
+
+.hatchDetail {
+  composes: hatch;
+  height: 220px;
+  font-size: 11px;
+}
+
+.hatchThumb56 {
+  composes: hatch;
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.hatchThumb60 {
+  composes: hatch;
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- tags / chips ---------- */
+
+.chipsRow {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 14px;
+  margin-bottom: 4px;
+}
+
+.chip {
+  background: var(--laz-surface);
+  border: 1px solid var(--laz-border);
+  color: var(--laz-text);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 24px;
+  white-space: nowrap;
+  cursor: default;
+}
+
+.chipActive {
+  background: var(--laz-red);
+  border-color: var(--laz-red);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.tagPill {
+  background: var(--laz-surface);
+  border: 1px solid var(--laz-border);
+  color: var(--laz-text);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+/* ---------- screen 1: catalog ---------- */
+
+.catalogContent {
+  height: 767px;
+  overflow-y: auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.searchBar {
+  background: var(--laz-surface);
+  border: 1px solid var(--laz-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+}
+
+.searchPlaceholder {
+  color: var(--laz-muted);
+  font-size: 14px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.productCard {
+  background: var(--laz-surface);
+  border: 1px solid var(--laz-border);
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  cursor: default;
+  display: block;
+  width: 100%;
+}
+
+.productCardButton {
+  composes: productCard;
+  cursor: pointer;
+  border-color: var(--laz-border);
+  outline: none;
+}
+
+.productCardButton:hover,
+.productCardButton:focus-visible {
+  border-color: var(--laz-red);
+}
+
+.productCardButton:focus-visible {
+  outline: 2px solid var(--laz-red);
+  outline-offset: 2px;
+}
+
+.productBody {
+  padding: 10px 12px;
+}
+
+.productName {
+  color: var(--laz-text);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.productMeta {
+  color: var(--laz-muted);
+  font-size: 11px;
+  margin-top: 4px;
+}
+
+.productPrice {
+  color: var(--laz-text);
+  font-size: 15px;
+  font-weight: 900;
+  margin-top: 6px;
+}
+
+.bottomNav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: var(--laz-surface);
+  border-top: 1px solid var(--laz-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--laz-muted);
+  background: none;
+  border: none;
+  cursor: default;
+  outline: none;
+}
+
+.navItemActive {
+  composes: navItem;
+  color: var(--laz-red);
+}
+
+.navLabel {
+  font-size: 10px;
+}
+
+.navLabelActive {
+  composes: navLabel;
+  font-weight: 700;
+}
+
+.navFab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--laz-red);
+  margin-top: -24px;
+  box-shadow: 0 6px 16px rgba(232, 35, 26, 0.4);
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.navFab:focus-visible,
+.navItem:focus-visible {
+  outline: 2px solid var(--laz-red);
+  outline-offset: 2px;
+}
+
+/* ---------- screen 2: AI identify ---------- */
+
+.cameraTopBar {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 5;
+}
+
+.roundIconBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  color: #ffffff;
+  cursor: default;
+  outline: none;
+}
+
+.roundIconBtnInteractive {
+  composes: roundIconBtn;
+  cursor: pointer;
+}
+
+.roundIconBtnInteractive:focus-visible {
+  outline: 2px solid var(--laz-red);
+  outline-offset: 2px;
+}
+
+.cameraTitle {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.framingGuide {
+  position: absolute;
+  top: 230px;
+  left: 46px;
+  width: 320px;
+  height: 280px;
+  z-index: 4;
+}
+
+.cornerTL {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border-top: 4px solid var(--laz-red);
+  border-left: 4px solid var(--laz-red);
+  border-radius: 8px 0 0 0;
+}
+
+.cornerTR {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  border-top: 4px solid var(--laz-red);
+  border-right: 4px solid var(--laz-red);
+  border-radius: 0 8px 0 0;
+}
+
+.cornerBL {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border-bottom: 4px solid var(--laz-red);
+  border-left: 4px solid var(--laz-red);
+  border-radius: 0 0 0 8px;
+}
+
+.cornerBR {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  border-bottom: 4px solid var(--laz-red);
+  border-right: 4px solid var(--laz-red);
+  border-radius: 0 0 8px 0;
+}
+
+.scanline {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--laz-red), transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scanline {
+    animation: scanline 2.2s ease-in-out infinite;
+  }
+}
+
+.centerHint {
+  position: absolute;
+  top: 522px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 5;
+}
+
+.centerHintText {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.bottomSheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, rgba(11, 11, 13, 0) 0%, rgba(11, 11, 13, 0.96) 30%, var(--laz-bg) 100%);
+  padding: 24px 0 34px;
+  z-index: 5;
+}
+
+.bottomSheetHint {
+  text-align: center;
+  color: var(--laz-muted);
+  font-size: 13px;
+  margin-bottom: 18px;
+  padding: 0 40px;
+}
+
+.captureRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.sideButton {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--laz-surface);
+  border: 1px solid var(--laz-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--laz-text);
+  cursor: default;
+  outline: none;
+}
+
+.captureButton {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: var(--laz-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid var(--laz-text);
+  cursor: pointer;
+  outline: none;
+}
+
+.captureButton:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .captureButton {
+    animation: pulseRing 1.8s infinite;
+  }
+}
+
+.captureButtonInner {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--laz-red);
+}
+
+/* ---------- screen 3: AI result ---------- */
+
+.resultContent {
+  height: 767px;
+  overflow-y: auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.confidenceCard {
+  background: var(--laz-surface);
+  border: 1px solid var(--laz-border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.confidenceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.confidenceLabel {
+  color: var(--laz-muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.confidenceValue {
+  color: var(--laz-success);
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.confidenceTrack {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--laz-border);
+  overflow: hidden;
+}
+
+.confidenceFill {
+  height: 100%;
+  background: var(--laz-success);
+  border-radius: 4px;
+}
+
+.partTitleBlock {
+  margin-bottom: 16px;
+}
+
+.partTitle {
+  color: var(--laz-text);
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.partNumber {
+  color: var(--laz-muted);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.partTagsRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.sectionLabel {
+  color: var(--laz-text);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.listingItem {
+  background: var(--laz-surface);
+  border: 1px solid var(--laz-border);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.listingItem:last-child {
+  margin-bottom: 0;
+}
+
+.listingItemBest {
+  composes: listingItem;
+  border-color: var(--laz-red);
+}
+
+.listingBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.listingTopRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.listingName {
+  color: var(--laz-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.bestMatchBadge {
+  background: var(--laz-red);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.listingMeta {
+  color: var(--laz-muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.listingPrice {
+  color: var(--laz-text);
+  font-size: 15px;
+  font-weight: 900;
+  margin-top: 4px;
+}
+
+/* ---------- screen 4: product detail ---------- */
+
+.detailContent {
+  height: 635px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.dotsRow {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--laz-border);
+}
+
+.dotActive {
+  composes: dot;
+  background: var(--laz-red);
+}
+
+.detailBody {
+  padding: 6px 16px 16px;
+}
+
+.detailTitle {
+  color: var(--laz-text);
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.detailPrice {
+  color: var(--laz-text);
+  font-size: 24px;
+  font-weight: 900;
+  margin-top: 8px;
+}
+
+.detailTagsRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.specHeading {
+  color: var(--laz-text);
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.specCard {
+  background: var(--laz-surface);
+  border: 1px solid var(--laz-border);
+  border-radius: 12px;
+  padding: 4px 14px;
+}
+
+.specRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--laz-border);
+}
+
+.specRow:last-child {
+  border-bottom: none;
+}
+
+.specLabel {
+  color: var(--laz-muted);
+  font-size: 13px;
+}
+
+.specValue {
+  color: var(--laz-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.specValueSuccess {
+  color: var(--laz-success);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.detailBottomBar {
+  height: 76px;
+  background: var(--laz-surface);
+  border-top: 1px solid var(--laz-border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--laz-border);
+  border-radius: 8px;
+}
+
+.stepperBtn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--laz-text);
+  font-size: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.stepperBtnSm {
+  composes: stepperBtn;
+  width: 26px;
+  height: 26px;
+  font-size: 15px;
+}
+
+.stepperBtn:focus-visible {
+  outline: 2px solid var(--laz-red);
+  outline-offset: 2px;
+}
+
+.stepperValue {
+  width: 30px;
+  text-align: center;
+  color: var(--laz-text);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.stepperValueSm {
+  composes: stepperValue;
+  width: 24px;
+  font-size: 13px;
+}
+
+.primaryPillBtn {
+  flex: 1;
+  background: var(--laz-red);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  padding: 13px 0;
+  border-radius: 24px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.primaryPillBtn:focus-visible {
+  outline: 2px solid var(--laz-red);
+  outline-offset: 3px;
+}
+
+/* ---------- screen 5: cart ---------- */
+
+.cartContent {
+  height: 687px;
+  overflow-y: auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.cartItemsList {
+  margin-bottom: 4px;
+}
+
+.cartItem {
+  background: var(--laz-surface);
+  border: 1px solid var(--laz-border);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.cartItemsList .cartItem:last-child {
+  margin-bottom: 16px;
+}
+
+.cartItemName {
+  color: var(--laz-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cartItemUnit {
+  color: var(--laz-muted);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.cartItemFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.cartItemTotal {
+  color: var(--laz-text);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.summaryCard {
+  background: var(--laz-summary);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.summaryTitle {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  color: var(--laz-summary-text);
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.summaryDivider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin-bottom: 10px;
+}
+
+.summaryTotalRow {
+  display: flex;
+  justify-content: space-between;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.cartBottomBar {
+  height: 76px;
+  background: var(--laz-surface);
+  border-top: 1px solid var(--laz-border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.checkoutBtn {
+  flex: 1;
+  background: var(--laz-red);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  padding: 14px 0;
+  border-radius: 24px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.checkoutBtn:focus-visible {
+  outline: 2px solid var(--laz-red);
+  outline-offset: 3px;
+}
+
+/* ---------- screen 6: order confirmation ---------- */
+
+.confirmContent {
+  height: 887px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 28px;
+  box-sizing: border-box;
+}
+
+.successRingOuter {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: rgba(61, 190, 92, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
+.successRingInner {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--laz-success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirmTitle {
+  color: var(--laz-text);
+  font-size: 22px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.confirmSubtitle {
+  color: var(--laz-muted);
+  font-size: 14px;
+  text-align: center;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+.orderCard {
+  background: var(--laz-surface);
+  border: 1px solid var(--laz-border);
+  border-radius: 12px;
+  padding: 18px;
+  width: 100%;
+  margin-top: 28px;
+}
+
+.orderRow {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--laz-border);
+  margin-bottom: 10px;
+}
+
+.orderRowLast {
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderLabel {
+  color: var(--laz-muted);
+  font-size: 13px;
+}
+
+.orderValue {
+  color: var(--laz-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.orderValueLg {
+  color: var(--laz-text);
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.continueBtn {
+  background: var(--laz-red);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  padding: 15px 0;
+  border-radius: 24px;
+  width: 100%;
+  margin-top: 26px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.continueBtn:focus-visible {
+  outline: 2px solid var(--laz-red);
+  outline-offset: 3px;
+}
+
+/* ---------- responsive scale wrapper ----------
+   Scales the 412x915 frame down as a unit on narrow viewports via CSS
+   transform, rather than reflowing the phone's internal (pixel-exact) layout. */
+
+.phoneScaleOuter {
+  display: flex;
+  justify-content: center;
+  width: 412px;
+  height: 915px;
+  margin: 0 auto;
+}
+
+.phoneScaleOuter .phone {
+  transform-origin: top center;
+}
+
+@media (max-width: 480px) {
+  .phoneScaleOuter {
+    width: 321.36px;
+    height: 713.7px;
+  }
+
+  .phoneScaleOuter .phone {
+    transform: scale(0.78);
+  }
+}

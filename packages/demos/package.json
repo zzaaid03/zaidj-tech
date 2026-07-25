@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./uni-plan/*": "./src/uni-plan/*"
+    "./uni-plan/*": "./src/uni-plan/*",
+    "./laz-store/*": "./src/laz-store/*"
   }
 }
