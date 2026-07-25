@@ -1,18 +1,108 @@
 ---
-import '../styles/global.css';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '@zaidj/ui/components/SectionHeading.astro';
+import SpecimenCard from '@zaidj/ui/components/SpecimenCard.astro';
+
+const specimens = await getCollection('specimens');
+const bySortOrder = (a: (typeof specimens)[number], b: (typeof specimens)[number]) =>
+  a.data.order - b.data.order;
+
+const featured = specimens.filter((s) => s.data.status === 'shipped').sort(bySortOrder);
+const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySortOrder);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>The Lab</title>
-	</head>
-	<body>
-		<h1>The Lab</h1>
-		<p>Under construction.</p>
-	</body>
-</html>
+<BaseLayout
+	title="The Lab — Zaid Jarrar"
+	description="I ship complete products, end to end. A living lab of playable specimens — mobile, AI, and full-stack builds you can poke at."
+>
+	<div class="mx-auto max-w-4xl px-6 py-16 sm:px-8">
+		<!-- Hero -->
+		<section>
+			<p class="font-mono text-xs uppercase tracking-widest text-muted">ZAIDJ.TECH / THE LAB</p>
+			<h1 class="mt-2 font-sans text-4xl font-semibold text-paper sm:text-5xl">The Lab</h1>
+			<p class="mt-4 max-w-xl font-sans text-xl font-medium text-paper">
+				I ship complete products, end to end.
+			</p>
+			<p class="mt-4 max-w-xl text-sm text-muted">
+				This is a workbench, not a gallery — every specimen below is a real, running build you
+				can poke at, warts and all.
+			</p>
+		</section>
+
+		<!-- Featured -->
+		<section class="mt-20">
+			<SectionHeading kicker="01 / FEATURED" title="Shipped specimens" />
+			<div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+				{
+					featured.map((specimen) => (
+						<a
+							href={`/specimen/${specimen.id}`}
+							class="block rounded-lg outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+						>
+							<SpecimenCard
+								id={specimen.data.specimenId}
+								year={specimen.data.year}
+								status={specimen.data.status}
+								stack={specimen.data.stack}
+								title={specimen.data.title}
+								description={specimen.data.tagline}
+							>
+								<div
+									slot="demo"
+									class="flex h-full min-h-24 items-center justify-center font-mono text-xs uppercase tracking-widest text-ink/40"
+								>
+									Live demo — coming in the next build
+								</div>
+							</SpecimenCard>
+						</a>
+					))
+				}
+			</div>
+		</section>
+
+		<!-- In the Lab -->
+		<section class="mt-20">
+			<SectionHeading kicker="02 / IN PROGRESS" title="In the Lab" />
+			<p class="mt-4 max-w-xl text-sm text-muted">
+				Active, unfinished work — kept visible on purpose. This is what building in the open
+				looks like, not a gap to apologize for.
+			</p>
+			<div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+				{
+					inTheLab.map((specimen) => (
+						<a
+							href={`/specimen/${specimen.id}`}
+							class="block rounded-lg outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+						>
+							<SpecimenCard
+								id={specimen.data.specimenId}
+								year={specimen.data.year}
+								status={specimen.data.status}
+								stack={specimen.data.stack}
+								title={specimen.data.title}
+								description={specimen.data.tagline}
+							>
+								<div
+									slot="demo"
+									class="flex h-full min-h-24 items-center justify-center font-mono text-xs uppercase tracking-widest text-ink/40"
+								>
+									Live demo — coming in the next build
+								</div>
+							</SpecimenCard>
+						</a>
+					))
+				}
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="mt-24 flex flex-col gap-2 border-t border-border pt-8 font-mono text-xs text-muted">
+			<div class="flex flex-wrap gap-x-6 gap-y-2">
+				<a class="hover:text-accent" href="https://github.com/zzaaid03">github.com/zzaaid03</a>
+				<a class="hover:text-accent" href="mailto:jarrarzaid3@gmail.com">jarrarzaid3@gmail.com</a>
+				<a class="hover:text-accent" href="https://zaidj.tech">zaidj.tech</a>
+			</div>
+		</footer>
+	</div>
+</BaseLayout>
