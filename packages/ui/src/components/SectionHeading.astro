@@ -1,0 +1,13 @@
+---
+export interface Props {
+  kicker: string;
+  title: string;
+}
+
+const { kicker, title } = Astro.props;
+---
+
+<div>
+  <p class="font-mono text-xs uppercase tracking-widest text-muted">{kicker}</p>
+  <h2 class="mt-2 font-sans text-3xl font-semibold text-paper">{title}</h2>
+</div>

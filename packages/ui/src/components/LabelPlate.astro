@@ -1,0 +1,25 @@
+---
+import StatusTag from './StatusTag.astro';
+import StackTag from './StackTag.astro';
+
+export interface Props {
+  id: string;
+  year: string | number;
+  status: 'shipped' | 'in-lab';
+  stack: string[];
+}
+
+const { id, year, status, stack } = Astro.props;
+---
+
+<div class="flex flex-wrap items-center justify-between gap-3 border-t border-border-paper pt-3 font-mono text-xs tabular-nums">
+  <div class="flex items-center gap-3 text-ink/60">
+    <span class="uppercase tracking-widest text-ink">{id}</span>
+    <span aria-hidden="true">&middot;</span>
+    <span>{year}</span>
+  </div>
+  <div class="flex flex-wrap items-center gap-2">
+    {stack.map((item) => <StackTag label={item} />)}
+    <StatusTag status={status} />
+  </div>
+</div>

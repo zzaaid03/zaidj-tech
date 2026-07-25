@@ -1,0 +1,122 @@
+---
+import '../styles/global.css';
+import GridBackdrop from '@zaidj/ui/components/GridBackdrop.astro';
+import SectionHeading from '@zaidj/ui/components/SectionHeading.astro';
+import SpecimenCard from '@zaidj/ui/components/SpecimenCard.astro';
+import LabelPlate from '@zaidj/ui/components/LabelPlate.astro';
+import StatusTag from '@zaidj/ui/components/StatusTag.astro';
+import StackTag from '@zaidj/ui/components/StackTag.astro';
+import Button from '@zaidj/ui/components/Button.astro';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Styleguide — The Lab</title>
+	</head>
+	<body class="min-h-screen">
+		<GridBackdrop />
+
+		<main class="mx-auto max-w-4xl px-6 py-16 sm:px-8">
+			<SectionHeading kicker="ZAIDJ.TECH / DESIGN SYSTEM" title="The Lab — Styleguide" />
+			<p class="mt-4 max-w-xl font-mono text-sm text-muted">
+				Dev reference page. Every component, every variant. No real project content lives here.
+			</p>
+
+			<!-- Section Heading -->
+			<section class="mt-16">
+				<SectionHeading kicker="01 / TYPOGRAPHY &amp; HEADINGS" title="Section Heading" />
+				<div class="mt-6 rounded-lg border border-border p-6">
+					<SectionHeading kicker="Sample kicker line" title="Sample heading title" />
+				</div>
+			</section>
+
+			<!-- Buttons -->
+			<section class="mt-16">
+				<SectionHeading kicker="02 / ACTIONS" title="Button" />
+				<div class="mt-6 flex flex-wrap items-center gap-4 rounded-lg border border-border p-6">
+					<Button variant="primary">Primary action</Button>
+					<Button variant="ghost">Ghost action</Button>
+					<Button variant="primary" href="#">Primary link</Button>
+					<Button variant="ghost" href="#">Ghost link</Button>
+				</div>
+			</section>
+
+			<!-- Status tags -->
+			<section class="mt-16">
+				<SectionHeading kicker="03 / METADATA" title="Status Tag" />
+				<div class="mt-6 flex flex-wrap items-center gap-4 rounded-lg border border-border bg-paper p-6">
+					<StatusTag status="shipped" />
+					<StatusTag status="in-lab" />
+				</div>
+			</section>
+
+			<!-- Stack tags -->
+			<section class="mt-16">
+				<SectionHeading kicker="04 / METADATA" title="Stack Tag" />
+				<div class="mt-6 flex flex-wrap items-center gap-2 rounded-lg border border-border bg-paper p-6">
+					<StackTag label="Flutter" />
+					<StackTag label="TypeScript" />
+					<StackTag label="Supabase" />
+					<StackTag label="Kotlin" />
+				</div>
+			</section>
+
+			<!-- Label plate -->
+			<section class="mt-16">
+				<SectionHeading kicker="05 / METADATA" title="Label Plate" />
+				<div class="mt-6 rounded-lg border border-border bg-paper p-6">
+					<LabelPlate id="SPEC-000" year="2026" status="in-lab" stack={['React', 'Node']} />
+				</div>
+			</section>
+
+			<!-- Specimen cards -->
+			<section class="mt-16">
+				<SectionHeading kicker="06 / CORE MOTIF" title="Specimen Card" />
+				<div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+					<SpecimenCard
+						id="SPEC-001"
+						year="2026"
+						status="shipped"
+						stack={['Flutter', 'Supabase']}
+						title="Specimen Alpha"
+						description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+					/>
+					<SpecimenCard
+						id="SPEC-002"
+						year="2026"
+						status="in-lab"
+						stack={['TypeScript', 'React']}
+						title="Specimen Beta"
+						description="Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+					>
+						<div slot="demo" class="flex h-full min-h-24 items-center justify-center font-mono text-xs uppercase tracking-widest text-ink/40">
+							interactive demo slot
+						</div>
+					</SpecimenCard>
+					<SpecimenCard
+						id="SPEC-003"
+						year="2025"
+						status="shipped"
+						stack={['Kotlin', 'Jetpack Compose', 'Firebase']}
+						title="Specimen Gamma"
+						description="Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
+					/>
+				</div>
+			</section>
+
+			<!-- Grid backdrop note -->
+			<section class="mt-16">
+				<SectionHeading kicker="07 / TEXTURE" title="Grid Backdrop" />
+				<p class="mt-4 font-mono text-sm text-muted">
+					Applied globally as a fixed background layer behind this entire page — see the faint
+					graph-paper grid.
+				</p>
+			</section>
+		</main>
+	</body>
+</html>

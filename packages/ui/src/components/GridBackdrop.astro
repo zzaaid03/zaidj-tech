@@ -1,0 +1,15 @@
+---
+// Faint graph-paper texture on the ink background. Purely decorative, non-interactive.
+---
+
+<div class="grid-backdrop pointer-events-none fixed inset-0 -z-10 bg-ink" aria-hidden="true"></div>
+
+<style>
+  .grid-backdrop {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--color-border) 60%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-border) 60%, transparent) 1px, transparent 1px);
+    background-size: 32px 32px;
+    opacity: 0.35;
+  }
+</style>

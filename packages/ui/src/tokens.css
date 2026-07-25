@@ -1,0 +1,35 @@
+@theme {
+  /* color ramp */
+  --color-ink: #14110d;
+  --color-paper: #f4eee2;
+  --color-muted: #a39a87;
+  --color-border: #2a241c;
+  --color-border-paper: #ddd3be;
+  --color-accent: #e08a3c;
+  --color-accent-hover: #f2a055;
+
+  /* type families */
+  --font-sans: 'Space Grotesk Variable', 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', monospace;
+
+  /* type scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  /* spacing scale (semantic additions on top of the default 0.25rem base) */
+  --spacing-card: 1.5rem;
+  --spacing-gutter: 2rem;
+  --spacing-section: 4rem;
+
+  /* radii */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+}
