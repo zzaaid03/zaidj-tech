@@ -1,0 +1,8 @@
+{
+  "name": "@zaidj/demos",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./uni-plan/*": "./src/uni-plan/*"
+  }
+}
