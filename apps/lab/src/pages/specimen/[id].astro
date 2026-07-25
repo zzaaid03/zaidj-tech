@@ -3,6 +3,8 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import LabelPlate from '@zaidj/ui/components/LabelPlate.astro';
 import Button from '@zaidj/ui/components/Button.astro';
+import UniPlanDemo from '@zaidj/demos/uni-plan/UniPlanDemo.tsx';
+import LazStoreDemo from '@zaidj/demos/laz-store/LazStoreDemo.tsx';
 
 export async function getStaticPaths() {
 	const specimens = await getCollection('specimens');
@@ -48,10 +50,26 @@ const { title, tagline, year, stack, status, specimenId, repoUrl, liveUrl, role 
 			)}
 		</div>
 
-		<section id="demo" class="mt-16 rounded-lg border border-dashed border-border p-8">
-			<p class="font-mono text-xs uppercase tracking-widest text-muted">
-				Live demo coming in the next build
-			</p>
-		</section>
+		{specimen.id === 'uni-plan' ? (
+			<section id="demo" class="mx-auto mt-16 max-w-4xl">
+				<h2 class="font-mono text-xs uppercase tracking-widest text-muted">Live demo</h2>
+				<div class="mt-2">
+					<UniPlanDemo client:visible />
+				</div>
+			</section>
+		) : specimen.id === 'laz-store' ? (
+			<section id="demo" class="mx-auto mt-16 max-w-4xl">
+				<h2 class="font-mono text-xs uppercase tracking-widest text-muted">Live demo</h2>
+				<div class="mt-2">
+					<LazStoreDemo client:visible />
+				</div>
+			</section>
+		) : (
+			<section id="demo" class="mt-16 rounded-lg border border-dashed border-border p-8">
+				<p class="font-mono text-xs uppercase tracking-widest text-muted">
+					Live demo coming in the next build
+				</p>
+			</section>
+		)}
 	</article>
 </BaseLayout>
