@@ -30,7 +30,7 @@ export default function OrderConfirmationScreen({ totalPaid, onContinueShopping 
           </div>
           <div className={styles.orderRow}>
             <span className={styles.orderLabel}>Estimated Delivery</span>
-            <span className={styles.orderValue}>Jul 29 – Aug 1</span>
+            <span className={styles.orderValue}>Jul 29 - Aug 1</span>
           </div>
           <div className={styles.orderRowLast}>
             <span className={styles.orderLabel}>Total Paid</span>

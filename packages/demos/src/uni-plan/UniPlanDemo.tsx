@@ -7,16 +7,16 @@ const DAYS: Day[] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 const GRADE_OPTIONS = [
   { value: '', label: 'In progress (no grade yet)' },
-  { value: '4.0', label: '4.0 — A' },
-  { value: '3.7', label: '3.7 — A-' },
-  { value: '3.3', label: '3.3 — B+' },
-  { value: '3.0', label: '3.0 — B' },
-  { value: '2.7', label: '2.7 — B-' },
-  { value: '2.3', label: '2.3 — C+' },
-  { value: '2.0', label: '2.0 — C' },
-  { value: '1.7', label: '1.7 — C-' },
-  { value: '1.0', label: '1.0 — D' },
-  { value: '0.0', label: '0.0 — F' },
+  { value: '4.0', label: '4.0: A' },
+  { value: '3.7', label: '3.7: A-' },
+  { value: '3.3', label: '3.3: B+' },
+  { value: '3.0', label: '3.0: B' },
+  { value: '2.7', label: '2.7: B-' },
+  { value: '2.3', label: '2.3: C+' },
+  { value: '2.0', label: '2.0: C' },
+  { value: '1.7', label: '1.7: C-' },
+  { value: '1.0', label: '1.0: D' },
+  { value: '0.0', label: '0.0: F' },
 ];
 
 const SAMPLE_COURSES: DemoCourse[] = [
@@ -141,7 +141,7 @@ export default function UniPlanDemo() {
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-sans font-medium">{course.name}</p>
                     <p className="font-mono text-xs text-ink/70">
-                      {course.day} · {formatTime(course.start)}–{formatTime(course.end)} ·{' '}
+                      {course.day} · {formatTime(course.start)}-{formatTime(course.end)} ·{' '}
                       {course.credits} cr ·{' '}
                       {course.grade !== undefined ? course.grade.toFixed(1) : 'in progress'}
                     </p>
@@ -165,7 +165,7 @@ export default function UniPlanDemo() {
             })}
             {courses.length === 0 && (
               <li className="rounded-md border border-dashed border-border-paper p-4 text-center font-mono text-xs uppercase tracking-widest text-ink/40">
-                No courses — add one below
+                No courses. Add one below.
               </li>
             )}
           </ul>

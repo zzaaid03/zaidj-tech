@@ -13,8 +13,8 @@ const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySort
 ---
 
 <BaseLayout
-	title="The Lab — Zaid Jarrar"
-	description="I ship complete products, end to end. A living lab of playable specimens — mobile, AI, and full-stack builds you can poke at."
+	title="The Lab - Zaid Jarrar"
+	description="I ship complete products, end to end. A living lab of playable specimens: mobile, AI, and full-stack builds you can poke at."
 >
 	<div class="mx-auto max-w-4xl px-6 py-16 sm:px-8">
 		<!-- Hero -->
@@ -25,7 +25,7 @@ const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySort
 				I ship complete products, end to end.
 			</p>
 			<p class="mt-4 max-w-xl text-sm text-muted">
-				This is a workbench, not a gallery — every specimen below is a real, running build you
+				This is a workbench, not a gallery: every specimen below is a real, running build you
 				can poke at, warts and all.
 			</p>
 		</section>
@@ -44,13 +44,13 @@ const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySort
 							title={specimen.data.title}
 							description={specimen.data.tagline}
 							href={`/specimen/${specimen.id}`}
-							linkLabel={`${specimen.data.title} — view case study`}
+							linkLabel={`${specimen.data.title} - view case study`}
 						>
 							<div
 								slot="demo"
 								class="flex h-full min-h-24 items-center justify-center font-mono text-xs uppercase tracking-widest text-ink/40"
 							>
-								Live demo — coming in the next build
+								Live demo coming in the next build
 							</div>
 						</SpecimenCard>
 					))
@@ -62,7 +62,7 @@ const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySort
 		<section class="mt-20">
 			<SectionHeading kicker="02 / IN PROGRESS" title="In the Lab" />
 			<p class="mt-4 max-w-xl text-sm text-muted">
-				Active, unfinished work — kept visible on purpose. This is what building in the open
+				Active, unfinished work (kept visible on purpose). This is what building in the open
 				looks like, not a gap to apologize for.
 			</p>
 			<div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -76,13 +76,13 @@ const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySort
 							title={specimen.data.title}
 							description={specimen.data.tagline}
 							href={`/specimen/${specimen.id}`}
-							linkLabel={`${specimen.data.title} — view case study`}
+							linkLabel={`${specimen.data.title} - view case study`}
 						>
 							<div
 								slot="demo"
 								class="flex h-full min-h-24 items-center justify-center font-mono text-xs uppercase tracking-widest text-ink/40"
 							>
-								Live demo — coming in the next build
+								Live demo coming in the next build
 							</div>
 						</SpecimenCard>
 					))

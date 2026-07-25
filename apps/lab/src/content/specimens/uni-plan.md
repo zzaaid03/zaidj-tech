@@ -15,4 +15,4 @@ order: 2
 
 Uni-Plan helps students plan a semester schedule without manually cross-checking course times by hand. It detects schedule conflicts and predicts GPA impact, all running client-side in the browser.
 
-Built with React, Express, and TypeScript, this is the most directly playable specimen in the lab — the demo embedded on this page runs the real conflict-detection and GPA logic, not a recording of it.
+Built with React, Express, and TypeScript, this is the most directly playable specimen in the lab: the demo embedded on this page runs the real conflict-detection and GPA logic, not a recording of it.

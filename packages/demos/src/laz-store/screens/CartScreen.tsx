@@ -90,7 +90,7 @@ export default function CartScreen({ onCheckout }: CartScreenProps) {
 
       <div className={styles.cartBottomBar}>
         <button type="button" className={styles.checkoutBtn} onClick={() => onCheckout(formatUsd(total))}>
-          Checkout — {formatUsd(total)}
+          Checkout - {formatUsd(total)}
         </button>
       </div>
     </>

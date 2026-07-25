@@ -5,11 +5,11 @@
  *   - backend/src/schedule.ts -> detectConflicts
  *
  * Both functions are pure and backend-free in the source repo (no database, no
- * Express-specific state) — this is a straight copy of the algorithms. The one
+ * Express-specific state). This is a straight copy of the algorithms. The one
  * change: detectConflicts returns structured Conflict objects (course ids +
  * message) instead of plain strings, so the UI can highlight which two courses
- * clash. The comparison itself — same-day, half-open interval overlap via
- * `Math.max(a.start, b.start) < Math.min(a.end, b.end)` — is unchanged.
+ * clash. The comparison itself (same-day, half-open interval overlap via
+ * `Math.max(a.start, b.start) < Math.min(a.end, b.end)`) is unchanged.
  * Course also gains an `id` field, needed for React list keys/highlighting;
  * the original type had no id since it was never rendered as a list.
  */

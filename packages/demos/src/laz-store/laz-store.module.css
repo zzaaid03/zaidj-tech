@@ -1,7 +1,7 @@
 /*
   Scoped design tokens for the LAZ Store recreation ONLY.
   These colors belong to the original Android app's branding and must never be
-  added to @zaidj/ui — see packages/ui/src/tokens.css for The Lab's own palette.
+  added to @zaidj/ui: see packages/ui/src/tokens.css for The Lab's own palette.
 */
 :global(.laz-store-root) {
   --laz-red: #e8231a;

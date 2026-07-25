@@ -39,7 +39,7 @@ export default function ProductDetailScreen({ onBack, onAddToCart }: ProductDeta
         </div>
 
         <div className={styles.detailBody}>
-          <div className={styles.detailTitle}>Suspension Strut — Front</div>
+          <div className={styles.detailTitle}>Suspension Strut - Front</div>
           <div className={styles.detailPrice}>$210.00</div>
           <div className={styles.detailTagsRow}>
             <span className={styles.tagPill}>Model Y</span>
@@ -57,7 +57,7 @@ export default function ProductDetailScreen({ onBack, onAddToCart }: ProductDeta
       </div>
 
       <div className={styles.detailBottomBar}>
-        <QuantityStepper value={qty} onChange={setQty} label="Suspension Strut — Front" />
+        <QuantityStepper value={qty} onChange={setQty} label="Suspension Strut - Front" />
         <button type="button" className={styles.primaryPillBtn} onClick={onAddToCart}>
           Add to Cart
         </button>

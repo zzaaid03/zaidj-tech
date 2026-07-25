@@ -40,7 +40,7 @@ export default function LazStoreDemo() {
   return (
     <div className="laz-store-root" onKeyDown={handleKeyDown}>
       <div className="flex flex-col items-center gap-4">
-        {/* prev / next + direct-select chrome — must stay in @zaidj/ui styling, never LAZ colors */}
+        {/* prev / next + direct-select chrome: must stay in @zaidj/ui styling, never LAZ colors */}
         <div className="flex w-full max-w-[412px] items-center justify-between font-mono text-xs text-muted">
           <button
             type="button"
@@ -52,7 +52,7 @@ export default function LazStoreDemo() {
             &larr; Prev
           </button>
           <span aria-hidden="true">
-            {screen + 1} of {SCREENS.length} — {SCREENS[screen].label}
+            {screen + 1} of {SCREENS.length} - {SCREENS[screen].label}
           </span>
           <button
             type="button"
