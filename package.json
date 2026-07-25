@@ -1,0 +1,9 @@
+{
+  "name": "zaidj-tech",
+  "private": true,
+  "packageManager": "pnpm@11.17.0",
+  "scripts": {
+    "dev": "pnpm --filter @zaidj/lab dev",
+    "build": "pnpm --filter @zaidj/lab build"
+  }
+}
