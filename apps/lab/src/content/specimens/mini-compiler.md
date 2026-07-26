@@ -6,7 +6,7 @@ year: 2026
 stack: ["Flex", "Bison", "C"]
 status: "course"
 repoUrl: "https://github.com/zzaaid03/mini-compiler"
-role: "Built the lexer, parser, and interpreter for arithmetic, conditionals, and loops."
+role: "Wrote the lexer, parser, and interpreter in Flex and Bison, covering arithmetic, conditionals, and loops."
 order: 9
 ---
 

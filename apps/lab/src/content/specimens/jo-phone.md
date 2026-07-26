@@ -6,7 +6,7 @@ year: 2026
 stack: ["Python"]
 status: "course"
 repoUrl: "https://github.com/zzaaid03/jo_phone"
-role: "Built a layered console app with unittest coverage, standard library only."
+role: "Wrote a layered console app in plain Python, standard library only, with unittest coverage."
 order: 8
 ---
 

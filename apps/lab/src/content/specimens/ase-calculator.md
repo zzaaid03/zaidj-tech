@@ -6,7 +6,7 @@ year: 2026
 stack: ["Java", "Spring Boot"]
 status: "course"
 repoUrl: "https://github.com/zzaaid03/ASE-Calculator"
-role: "Built the Spring Boot calculator with automated tests and GitHub Actions CI."
+role: "Helped build the Spring Boot calculator, its tests, and the GitHub Actions CI."
 order: 7
 ---
 

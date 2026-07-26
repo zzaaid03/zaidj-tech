@@ -6,7 +6,7 @@ year: 2026
 stack: ["React", "Vite", "Firebase"]
 status: "course"
 repoUrl: "https://github.com/zzaaid03/mensa-management-system"
-role: "Built the React frontend: meal nutrition info, pre-orders, and table reservations."
+role: "Co-built the React frontend: meal nutrition info, pre-orders, and table reservations."
 order: 6
 ---
 
