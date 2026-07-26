@@ -1,7 +1,7 @@
 ---
 specimenId: "SPEC-002"
 title: "Uni-Plan"
-tagline: "A university semester planner with client-side conflict detection and GPA prediction."
+tagline: "Check a semester for clashes and GPA impact before you register, not after."
 year: 2026
 stack: ["React", "Express", "TypeScript"]
 status: "shipped"
@@ -11,8 +11,10 @@ role: "Built the scheduling engine, conflict-detection logic, and GPA prediction
 order: 2
 ---
 
-<!-- DRAFT COPY - pending Zaid review -->
+Registration makes you answer two questions at once: does this timetable actually work, and what will it do to my GPA. Uni-Plan answers both before you commit to anything.
 
-Uni-Plan helps students plan a semester schedule without manually cross-checking course times by hand. It detects schedule conflicts and predicts GPA impact, all running client-side in the browser.
+You enter your courses with credits, grade, day and time slot. It compares every pair of courses on the same day and tells you exactly which ones overlap, instead of just warning that something somewhere is wrong. Alongside that it computes a credit-weighted GPA, so you can add an elective, see the effect, and change your mind while changing your mind is still free.
 
-Built with React, Express, and TypeScript, this is the most directly playable specimen in the lab: the demo embedded on this page runs the real conflict-detection and GPA logic, not a recording of it.
+It is a small app, deliberately: a React and TypeScript frontend against an Express API with two endpoints, one for conflicts and one for GPA. The logic is the product and the rest is plumbing.
+
+The demo on this page is the real thing. I ported the actual conflict-detection and GPA functions into the browser, so what you are poking at is the same logic the app runs, not a mock-up of it.
