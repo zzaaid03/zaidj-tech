@@ -1,0 +1,386 @@
+/*
+  Scoped design tokens for the Life OS recreation ONLY.
+  These colors belong to the real Flutter app's theme
+  (lib/features/theme/app_colors.dart) and must never be added to
+  @zaidj/ui: see packages/ui/src/tokens.css for The Lab's own palette.
+*/
+:global(.life-os-root) {
+  --lo-bg: #121916;
+  --lo-surface: #1b241f;
+  --lo-primary: #33b89b;
+  --lo-text: #ecf2ef;
+  --lo-muted: #93a099;
+  --lo-success: #2faf6a;
+  --lo-warning: #e8a13c;
+  --lo-error: #e5544e;
+  --lo-font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+@keyframes lo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- phone frame ---------- */
+
+.phone {
+  position: relative;
+  width: 412px;
+  height: 915px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 38px;
+  border: 8px solid #05080a;
+  background: var(--lo-bg);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  font-family: var(--lo-font);
+}
+
+.phoneScaleOuter {
+  display: flex;
+  justify-content: center;
+  width: 412px;
+  height: 915px;
+  margin: 0 auto;
+}
+
+.phoneScaleOuter .phone {
+  transform-origin: top center;
+}
+
+@media (max-width: 480px) {
+  .phoneScaleOuter {
+    width: 321.36px;
+    height: 713.7px;
+  }
+
+  .phoneScaleOuter .phone {
+    transform: scale(0.78);
+  }
+}
+
+/* ---------- app bar ---------- */
+
+.appBar {
+  height: 56px;
+  background: var(--lo-surface);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.appBarTitle {
+  color: var(--lo-text);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* ---------- scan screen ---------- */
+
+.scanContent {
+  height: 859px;
+  overflow-y: auto;
+  padding: 24px 20px;
+  box-sizing: border-box;
+  color: var(--lo-text);
+}
+
+.bodyText {
+  color: var(--lo-muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.primaryButton {
+  width: 100%;
+  background: var(--lo-primary);
+  color: #0b1210;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 0;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.primaryButton:focus-visible {
+  outline: 2px solid var(--lo-primary);
+  outline-offset: 3px;
+}
+
+.primaryButton:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(11, 18, 16, 0.35);
+  border-top-color: #0b1210;
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .spinner {
+    animation: lo-spin 0.8s linear infinite;
+  }
+}
+
+/* ---------- connect gmail modal ---------- */
+
+.backdrop {
+  filter: blur(1px);
+  opacity: 0.6;
+}
+
+.modalOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 8, 6, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 10;
+}
+
+.modalCard {
+  background: var(--lo-surface);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  color: var(--lo-text);
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.modalBody {
+  color: var(--lo-muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.modalGhostButton {
+  background: none;
+  border: none;
+  color: var(--lo-muted);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+}
+
+.modalGhostButton:hover {
+  color: var(--lo-text);
+}
+
+.modalGhostButton:focus-visible,
+.modalPrimaryButton:focus-visible {
+  outline: 2px solid var(--lo-primary);
+  outline-offset: 2px;
+}
+
+.modalPrimaryButton {
+  background: var(--lo-primary);
+  color: #0b1210;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+/* ---------- results screen ---------- */
+
+.resultsContent {
+  height: 915px;
+  overflow-y: auto;
+  padding: 24px 20px 96px;
+  box-sizing: border-box;
+  color: var(--lo-text);
+}
+
+.accountLine {
+  font-size: 13px;
+  color: var(--lo-muted);
+  margin-bottom: 8px;
+}
+
+.sectionHeading {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--lo-muted);
+  margin: 24px 0 10px;
+}
+
+.sectionHeading:first-of-type {
+  margin-top: 4px;
+}
+
+.card {
+  background: var(--lo-surface);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.cardTitle {
+  color: var(--lo-text);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.cardMetaRow {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.dueHint {
+  color: var(--lo-muted);
+}
+
+.priorityHigh {
+  color: var(--lo-error);
+  font-weight: 700;
+}
+
+.priorityMedium {
+  color: var(--lo-warning);
+  font-weight: 700;
+}
+
+.cardActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.addButton {
+  flex: 1;
+  background: var(--lo-primary);
+  color: #0b1210;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 0;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.dismissButton {
+  flex: 1;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--lo-muted);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+}
+
+.addButton:focus-visible,
+.dismissButton:focus-visible {
+  outline: 2px solid var(--lo-primary);
+  outline-offset: 2px;
+}
+
+.jobCompanyRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.jobCompany {
+  color: var(--lo-text);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.jobRole {
+  color: var(--lo-muted);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.statusPill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.statusInterview {
+  composes: statusPill;
+  background: rgba(47, 175, 106, 0.16);
+  color: var(--lo-success);
+}
+
+.statusRejected {
+  composes: statusPill;
+  background: rgba(229, 84, 78, 0.16);
+  color: var(--lo-error);
+}
+
+.jobSummary {
+  color: var(--lo-muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+.emptyState {
+  color: var(--lo-muted);
+  font-size: 13px;
+  padding: 12px 0;
+}
+
+.snackbar {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  background: var(--lo-surface);
+  color: var(--lo-text);
+  font-size: 13px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  z-index: 5;
+}

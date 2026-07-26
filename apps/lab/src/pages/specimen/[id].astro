@@ -6,6 +6,7 @@ import Button from '@zaidj/ui/components/Button.astro';
 import UniPlanDemo from '@zaidj/demos/uni-plan/UniPlanDemo.tsx';
 import LazStoreDemo from '@zaidj/demos/laz-store/LazStoreDemo.tsx';
 import BrewitDemo from '@zaidj/demos/brewit/BrewitDemo.tsx';
+import LifeOsDemo from '@zaidj/demos/life-os/LifeOsDemo.tsx';
 
 export async function getStaticPaths() {
 	const specimens = await getCollection('specimens');
@@ -71,6 +72,13 @@ const { title, tagline, year, stack, status, specimenId, repoUrl, liveUrl, role 
 			<h2 class="font-mono text-xs uppercase tracking-widest text-muted">Live demo</h2>
 			<div class="mt-2">
 				<BrewitDemo client:visible />
+			</div>
+		</section>
+	) : specimen.id === 'life-os' ? (
+		<section id="demo" class="mx-auto mt-16 max-w-4xl px-6 pb-16 sm:px-8">
+			<h2 class="font-mono text-xs uppercase tracking-widest text-muted">Live demo</h2>
+			<div class="mt-2">
+				<LifeOsDemo client:visible />
 			</div>
 		</section>
 	) : (
