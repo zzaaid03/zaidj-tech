@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '@zaidj/ui/components/SectionHeading.astro';
 import SpecimenCard from '@zaidj/ui/components/SpecimenCard.astro';
+import { hasWiredDemo } from '../lib/demos';
 
 const specimens = await getCollection('specimens');
 const bySortOrder = (a: (typeof specimens)[number], b: (typeof specimens)[number]) =>
@@ -50,7 +51,11 @@ const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySort
 								slot="demo"
 								class="flex h-full min-h-24 items-center justify-center font-mono text-xs uppercase tracking-widest text-ink/40"
 							>
-								Live demo coming in the next build
+								{!hasWiredDemo(specimen.id)
+									? 'Case study and source'
+									: specimen.data.demoType === 'recreation'
+										? 'Interactive recreation inside'
+										: 'Playable demo inside'}
 							</div>
 						</SpecimenCard>
 					))
@@ -82,7 +87,11 @@ const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySort
 								slot="demo"
 								class="flex h-full min-h-24 items-center justify-center font-mono text-xs uppercase tracking-widest text-ink/40"
 							>
-								Live demo coming in the next build
+								{!hasWiredDemo(specimen.id)
+									? 'Case study and source'
+									: specimen.data.demoType === 'recreation'
+										? 'Interactive recreation inside'
+										: 'Playable demo inside'}
 							</div>
 						</SpecimenCard>
 					))
