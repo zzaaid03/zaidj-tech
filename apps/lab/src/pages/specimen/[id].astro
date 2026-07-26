@@ -7,7 +7,7 @@ import { wiredDemoIds } from '../../lib/demos';
 export async function getStaticPaths() {
 	const specimens = await getCollection('specimens');
 	return specimens
-		.filter((specimen) => !wiredDemoIds.includes(specimen.id))
+		.filter((specimen) => !wiredDemoIds.includes(specimen.id) && specimen.data.status !== 'course')
 		.map((specimen) => ({
 			params: { id: specimen.id },
 			props: { specimen },

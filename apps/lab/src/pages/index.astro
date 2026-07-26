@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '@zaidj/ui/components/SectionHeading.astro';
 import SpecimenCard from '@zaidj/ui/components/SpecimenCard.astro';
 import SpecimenPreview from '@zaidj/ui/components/SpecimenPreview.astro';
+import CourseCard from '@zaidj/ui/components/CourseCard.astro';
 import { hasWiredDemo } from '../lib/demos';
 
 const specimens = await getCollection('specimens');
@@ -13,6 +14,7 @@ const bySortOrder = (a: (typeof specimens)[number], b: (typeof specimens)[number
 const featured = specimens.filter((s) => s.data.status === 'shipped').sort(bySortOrder);
 const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySortOrder);
 const pending = specimens.filter((s) => s.data.status === 'pending').sort(bySortOrder);
+const courses = specimens.filter((s) => s.data.status === 'course').sort(bySortOrder);
 ---
 
 <BaseLayout
@@ -129,6 +131,30 @@ const pending = specimens.filter((s) => s.data.status === 'pending').sort(bySort
 											: 'Playable demo inside'}
 								/>
 							</SpecimenCard>
+						))}
+					</div>
+				</section>
+			)
+		}
+
+		<!-- Coursework -->
+		{
+			courses.length > 0 && (
+				<section class="mt-20">
+					<SectionHeading kicker="04 / COURSEWORK" title="Course projects" />
+					<p class="mt-4 max-w-xl text-sm text-muted">
+						University coursework. No demos here, the README on each repo tells the story.
+					</p>
+					<div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+						{courses.map((specimen) => (
+							<CourseCard
+								id={specimen.data.specimenId}
+								year={specimen.data.year}
+								stack={specimen.data.stack}
+								title={specimen.data.title}
+								description={specimen.data.tagline}
+								repoUrl={specimen.data.repoUrl}
+							/>
 						))}
 					</div>
 				</section>

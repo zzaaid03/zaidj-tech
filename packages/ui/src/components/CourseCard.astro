@@ -1,0 +1,44 @@
+---
+import StackTag from './StackTag.astro';
+
+export interface Props {
+  id: string;
+  year: string | number;
+  stack: string[];
+  title: string;
+  description: string;
+  repoUrl: string;
+}
+
+const { id, year, stack, title, description, repoUrl } = Astro.props;
+---
+
+<article class="flex flex-col gap-3 rounded-lg border border-border-paper bg-paper p-card text-ink">
+  <div class="flex items-center gap-3 font-mono text-xs tabular-nums text-ink/60">
+    <span class="uppercase tracking-widest text-ink">{id}</span>
+    <span aria-hidden="true">&middot;</span>
+    <span>{year}</span>
+  </div>
+
+  <div>
+    <h3 class="font-sans text-lg font-semibold">
+      <a href={repoUrl} target="_blank" rel="noopener noreferrer" class="hover:text-accent">
+        {title}
+      </a>
+    </h3>
+    <p class="mt-1 text-sm text-ink/70">{description}</p>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-2">
+    {stack.map((item) => <StackTag label={item} />)}
+  </div>
+
+  <a
+    href={repoUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="font-mono text-xs uppercase tracking-widest text-muted hover:text-accent"
+  >
+    View repo and README &rarr;
+  </a>
+</article>
