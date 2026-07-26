@@ -1,11 +1,11 @@
 /**
- * Ported from zzaaid03/Brewit (github.com/zzaaid03/Brewit):
- *   - src/lib/brewEngine.ts -> everything in this file
+ * GENERATED FILE - do not edit by hand.
  *
- * The source function is pure and framework-free (no React, no network, no
- * Firebase). This is a straight copy of the types, shift tables, pour
- * builders, note builders and generateRecipe. No numbers, strings, or logic
- * were changed.
+ * Copied from zzaaid03/Brewit, src/lib/brewEngine.ts. The engine is pure and
+ * framework-free, so the lab demo runs the same logic the real app runs.
+ *
+ * To update: change brewEngine.ts in the Brewit repo, then run `pnpm sync:brewit`
+ * here and commit the result. CI fails the deploy if this file falls behind.
  */
 
 export type BrewMethod = 'V60' | 'Kalita Wave' | 'Chemex'

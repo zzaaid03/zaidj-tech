@@ -25,6 +25,16 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - uses: actions/checkout@v7
+        with:
+          repository: zzaaid03/Brewit
+          path: .brewit-src
+
+      - name: Check Brewit engine is in sync
+        run: pnpm sync:brewit:check
+        env:
+          BREWIT_ENGINE_PATH: .brewit-src/src/lib/brewEngine.ts
+
       - run: pnpm test
 
       - run: pnpm build

@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "pnpm --filter @zaidj/lab dev",
     "build": "pnpm --filter @zaidj/lab build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "sync:brewit": "node scripts/sync-brewit-engine.mjs",
+    "sync:brewit:check": "node scripts/sync-brewit-engine.mjs --check"
   },
   "devDependencies": {
     "vitest": "^4.1.10"
