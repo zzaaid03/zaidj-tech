@@ -4,7 +4,7 @@ title: "wo2go"
 tagline: 'Not "how do I get to Hamburg" but "I am standing here, where can I actually get to?"'
 year: 2026
 stack: ["Next.js", "TypeScript"]
-status: "in-lab"
+status: "pending"
 demoType: "static"
 repoUrl: "https://github.com/zzaaid03/wo2go"
 role: "Designing and building the route-search approach and the Next.js app around it."

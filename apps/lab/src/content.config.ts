@@ -9,7 +9,7 @@ const specimens = defineCollection({
     tagline: z.string().max(90),
     year: z.number(),
     stack: z.array(z.string()),
-    status: z.enum(['shipped', 'in-lab']),
+    status: z.enum(['shipped', 'in-lab', 'pending']),
     demoType: z.enum(['playable', 'recreation', 'static']),
     repoUrl: z.string().url(),
     liveUrl: z.string().url().optional(),

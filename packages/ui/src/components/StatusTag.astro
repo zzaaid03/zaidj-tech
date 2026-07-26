@@ -1,26 +1,37 @@
 ---
 export interface Props {
-  status: 'shipped' | 'in-lab';
+  status: 'shipped' | 'in-lab' | 'pending';
 }
 
 const { status } = Astro.props;
-const label = status === 'shipped' ? 'SHIPPED' : 'IN THE LAB';
+
+const VARIANTS = {
+  shipped: {
+    label: 'SHIPPED',
+    tag: 'border-border-paper text-ink/70',
+    dot: 'bg-ink/50',
+  },
+  'in-lab': {
+    label: 'IN THE LAB',
+    tag: 'border-accent/40 text-accent',
+    dot: 'bg-accent',
+  },
+  pending: {
+    label: 'PENDING',
+    tag: 'border-muted/40 text-muted',
+    dot: 'bg-muted',
+  },
+} as const;
+
+const { label, tag, dot } = VARIANTS[status];
 ---
 
 <span
   class:list={[
     'inline-flex items-center gap-1.5 rounded-sm border px-2 py-0.5 font-mono text-xs tracking-wider uppercase',
-    status === 'shipped'
-      ? 'border-border-paper text-ink/70'
-      : 'border-accent/40 text-accent',
+    tag,
   ]}
 >
-  <span
-    class:list={[
-      'h-1.5 w-1.5 rounded-full',
-      status === 'shipped' ? 'bg-ink/50' : 'bg-accent',
-    ]}
-    aria-hidden="true"
-  ></span>
+  <span class:list={['h-1.5 w-1.5 rounded-full', dot]} aria-hidden="true"></span>
   {label}
 </span>

@@ -12,6 +12,7 @@ const bySortOrder = (a: (typeof specimens)[number], b: (typeof specimens)[number
 
 const featured = specimens.filter((s) => s.data.status === 'shipped').sort(bySortOrder);
 const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySortOrder);
+const pending = specimens.filter((s) => s.data.status === 'pending').sort(bySortOrder);
 ---
 
 <BaseLayout
@@ -97,6 +98,42 @@ const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySort
 				}
 			</div>
 		</section>
+
+		<!-- Pending -->
+		{
+			pending.length > 0 && (
+				<section class="mt-20">
+					<SectionHeading kicker="03 / PENDING" title="Pending" />
+					<p class="mt-4 max-w-xl text-sm text-muted">
+						Finished on my side. What is not live is an external dependency, not a gap in the work.
+					</p>
+					<div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+						{pending.map((specimen) => (
+							<SpecimenCard
+								id={specimen.data.specimenId}
+								year={specimen.data.year}
+								status={specimen.data.status}
+								stack={specimen.data.stack}
+								title={specimen.data.title}
+								description={specimen.data.tagline}
+								href={`/specimen/${specimen.id}`}
+								linkLabel={`${specimen.data.title} - view case study`}
+							>
+								<SpecimenPreview
+									slot="demo"
+									specimenId={specimen.id}
+									label={!hasWiredDemo(specimen.id)
+										? 'Case study and source'
+										: specimen.data.demoType === 'recreation'
+											? 'Interactive recreation inside'
+											: 'Playable demo inside'}
+								/>
+							</SpecimenCard>
+						))}
+					</div>
+				</section>
+			)
+		}
 
 		<!-- Footer -->
 		<footer class="mt-24 flex flex-col gap-2 border-t border-border pt-8 font-mono text-xs text-muted">
