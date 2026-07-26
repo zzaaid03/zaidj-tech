@@ -2,19 +2,10 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SpecimenLayout from '../../components/SpecimenLayout.astro';
-import { wiredDemoIds } from '../../lib/demos';
+import BrewitDemo from '@zaidj/demos/brewit/BrewitDemo.tsx';
 
-export async function getStaticPaths() {
-	const specimens = await getCollection('specimens');
-	return specimens
-		.filter((specimen) => !wiredDemoIds.includes(specimen.id))
-		.map((specimen) => ({
-			params: { id: specimen.id },
-			props: { specimen },
-		}));
-}
-
-const { specimen } = Astro.props;
+const specimens = await getCollection('specimens');
+const specimen = specimens.find((entry) => entry.id === 'brewit')!;
 const { Content } = await render(specimen);
 const { title, tagline, year, stack, status, specimenId, repoUrl, liveUrl, role } = specimen.data;
 ---
@@ -32,11 +23,10 @@ const { title, tagline, year, stack, status, specimenId, repoUrl, liveUrl, role 
 		liveUrl={liveUrl}
 	>
 		<Fragment slot="content"><Content /></Fragment>
-		<section id="demo" class="mx-auto mt-16 max-w-3xl px-6 pb-16 sm:px-8">
-			<div class="rounded-lg border border-dashed border-border p-8">
-				<p class="font-mono text-xs uppercase tracking-widest text-muted">
-					No live demo yet. The write-up above covers how it works.
-				</p>
+		<section id="demo" class="mx-auto mt-16 max-w-4xl px-6 pb-16 sm:px-8">
+			<h2 class="font-mono text-xs uppercase tracking-widest text-muted">Live demo</h2>
+			<div class="mt-2">
+				<BrewitDemo client:visible />
 			</div>
 		</section>
 	</SpecimenLayout>
