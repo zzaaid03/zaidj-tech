@@ -23,4 +23,8 @@ Origin is deliberately the exception. It shows up as a note on the recipe and it
 
 The piece I am happiest with is the export. A recipe serializes into a Bean Conqueror shaped file and goes out through the Web Share API, falling back to a plain download when sharing is not available. Worth saying plainly: I tried importing the result into Bean Conqueror and it did not take. The file generates, the round trip does not work yet.
 
-Honest status: this one is still in the lab. The export does not round trip, there is no way to log what you actually brewed and feed it back in, and part of the UI is still placeholder. The engine is the part I would defend. The app around it is not finished.
+The newest piece is a live brew mode. The recipe already knew the timing, but reading a table while the water goes cold is not how brewing actually goes, so now the plan runs itself. You press start and it counts up, tells you which pour you are on, and shows a running total to pour to rather than an amount to add, because a scale shows total weight and doing that arithmetic mid pour is where I kept making mistakes. It beeps at each transition and holds the phone screen awake while it runs.
+
+I also cut saved recipes. They were tied to anonymous auth, so a recipe lived in one browser and disappeared the moment site data was cleared. Building real accounts was more than this project needed, so the feature went instead of growing. The export is how you keep a recipe now, and the app talks to no server at all.
+
+Honest status: this one is still in the lab. The export does not round trip, and there is still no way to log what you actually brewed and feed it back in, which is the next thing I want to fix. The engine and the brew timer are the parts I would defend. The rest of the app is not finished.

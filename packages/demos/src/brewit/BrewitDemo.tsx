@@ -10,6 +10,7 @@ import {
   type TasteGoal,
 } from './logic';
 import { downloadBeanConquerorExport } from './export';
+import BrewitTimer from './BrewitTimer';
 
 const METHODS: BrewMethod[] = ['V60', 'Kalita Wave', 'Chemex'];
 const ROASTS: RoastLevel[] = ['light', 'medium', 'dark'];
@@ -27,6 +28,7 @@ export default function BrewitDemo() {
   const [tasteGoal, setTasteGoal] = useState<TasteGoal>('balanced');
   const [experience, setExperience] = useState<Experience>('amateur');
   const [origin, setOrigin] = useState('');
+  const [showTimer, setShowTimer] = useState(false);
 
   const input: BrewInput = useMemo(
     () => ({ method, roastLevel, process, tasteGoal, experience, origin }),
@@ -198,9 +200,20 @@ export default function BrewitDemo() {
         </section>
 
         <section aria-labelledby={`${formId}-pours-heading`} className="rounded-md border border-border-paper bg-ink/[0.03] p-4">
-          <h2 id={`${formId}-pours-heading`} className="font-sans text-lg font-semibold">
-            Pour schedule
-          </h2>
+          <div className="flex items-center justify-between gap-3">
+            <h2 id={`${formId}-pours-heading`} className="font-sans text-lg font-semibold">
+              Pour schedule
+            </h2>
+            {!showTimer ? (
+              <button
+                type="button"
+                onClick={() => setShowTimer(true)}
+                className="inline-flex items-center justify-center gap-2 rounded-sm bg-accent px-3 py-1.5 font-sans text-sm font-medium text-ink outline-none transition-colors hover:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                Start brew
+              </button>
+            ) : null}
+          </div>
           <ol className="mt-2 flex flex-col gap-2">
             {recipe.pours.map((step) => (
               <li
@@ -215,6 +228,8 @@ export default function BrewitDemo() {
             ))}
           </ol>
         </section>
+
+        {showTimer ? <BrewitTimer recipe={recipe} onHide={() => setShowTimer(false)} /> : null}
 
         <section aria-labelledby={`${formId}-notes-heading`} className="rounded-md border border-border-paper bg-ink/[0.03] p-4">
           <h2 id={`${formId}-notes-heading`} className="font-sans text-lg font-semibold">
