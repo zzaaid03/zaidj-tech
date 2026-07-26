@@ -170,7 +170,7 @@ export default function LifeOsDemo() {
         <div className={styles.phoneScaleOuter}>
           <div className={styles.phone}>
             {screen === 0 && (
-              <ConnectGmailModal onNotNow={() => undefined} onConnect={() => goTo(1)} />
+              <ConnectGmailModal onNotNow={() => goTo(1)} onConnect={() => goTo(1)} />
             )}
             {screen === 1 && <ScanScreen scanning={false} onScan={() => goTo(2)} />}
             {screen === 2 && <ScanScreen scanning onScan={() => undefined} />}
