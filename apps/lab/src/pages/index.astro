@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '@zaidj/ui/components/SectionHeading.astro';
 import SpecimenCard from '@zaidj/ui/components/SpecimenCard.astro';
+import SpecimenPreview from '@zaidj/ui/components/SpecimenPreview.astro';
 import { hasWiredDemo } from '../lib/demos';
 
 const specimens = await getCollection('specimens');
@@ -47,16 +48,15 @@ const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySort
 							href={`/specimen/${specimen.id}`}
 							linkLabel={`${specimen.data.title} - view case study`}
 						>
-							<div
+							<SpecimenPreview
 								slot="demo"
-								class="flex h-full min-h-24 items-center justify-center font-mono text-xs uppercase tracking-widest text-ink/40"
-							>
-								{!hasWiredDemo(specimen.id)
+								specimenId={specimen.id}
+								label={!hasWiredDemo(specimen.id)
 									? 'Case study and source'
 									: specimen.data.demoType === 'recreation'
 										? 'Interactive recreation inside'
 										: 'Playable demo inside'}
-							</div>
+							/>
 						</SpecimenCard>
 					))
 				}
@@ -83,16 +83,15 @@ const inTheLab = specimens.filter((s) => s.data.status === 'in-lab').sort(bySort
 							href={`/specimen/${specimen.id}`}
 							linkLabel={`${specimen.data.title} - view case study`}
 						>
-							<div
+							<SpecimenPreview
 								slot="demo"
-								class="flex h-full min-h-24 items-center justify-center font-mono text-xs uppercase tracking-widest text-ink/40"
-							>
-								{!hasWiredDemo(specimen.id)
+								specimenId={specimen.id}
+								label={!hasWiredDemo(specimen.id)
 									? 'Case study and source'
 									: specimen.data.demoType === 'recreation'
 										? 'Interactive recreation inside'
 										: 'Playable demo inside'}
-							</div>
+							/>
 						</SpecimenCard>
 					))
 				}

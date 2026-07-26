@@ -1,0 +1,289 @@
+---
+export interface Props {
+	specimenId: string;
+	label: string;
+}
+
+const { specimenId, label } = Astro.props;
+const weekCells = Array.from({ length: 15 });
+const wo2goSpokes = [
+	{ top: '18%', left: '82%', angle: -22, length: 74 },
+	{ top: '50%', left: '88%', angle: 0, length: 84 },
+	{ top: '80%', left: '78%', angle: 24, length: 70 },
+];
+---
+
+<div class="flex h-full min-h-24 flex-col items-center justify-center gap-2">
+	<div
+		class="preview-panel relative h-14 w-full max-w-56 overflow-hidden rounded-md border border-border-paper/70 bg-ink/[0.02]"
+		aria-hidden="true"
+	>
+		{
+			specimenId === 'life-os' && (
+				<div class="lifeos absolute inset-0 flex flex-col justify-center gap-1.5 px-3">
+					<div class="h-1.5 w-full rounded-full bg-border-paper" />
+					<div class="h-1.5 w-4/5 rounded-full bg-border-paper" />
+					<div class="relative h-1.5 w-full">
+						<div class="lifeos-line absolute inset-0 rounded-full bg-border-paper" />
+						<div class="lifeos-chip absolute inset-0 rounded-full bg-accent/70" />
+					</div>
+					<div class="relative h-1.5 w-3/5">
+						<div class="lifeos-line absolute inset-0 rounded-full bg-border-paper" />
+						<div class="lifeos-chip absolute inset-0 rounded-full bg-accent/70" />
+					</div>
+					<div class="lifeos-sweep pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+				</div>
+			)
+		}
+
+		{
+			specimenId === 'uni-plan' && (
+				<div class="uniplan absolute inset-0 grid grid-cols-5 grid-rows-3 gap-1 p-2.5">
+					{weekCells.map(() => (
+						<div class="rounded-sm bg-border-paper/70" />
+					))}
+					<div class="uniplan-block absolute top-2.5 left-[38%] h-[18%] w-[18%] rounded-sm bg-accent/60" />
+					<div class="uniplan-block uniplan-block-b absolute top-[38%] left-[46%] h-[18%] w-[18%] rounded-sm bg-accent/80" />
+				</div>
+			)
+		}
+
+		{
+			specimenId === 'laz-store' && (
+				<div class="lazstore absolute inset-0 flex flex-col items-center justify-center gap-1">
+					<div class="relative flex h-9 w-9 items-center justify-center">
+						<div class="h-4 w-4 rotate-45 rounded-[2px] border border-border-paper bg-ink/[0.04]" />
+						<div class="lazstore-reticle absolute inset-0">
+							<span class="absolute top-0 left-0 h-2 w-2 border-t border-l border-accent" />
+							<span class="absolute top-0 right-0 h-2 w-2 border-t border-r border-accent" />
+							<span class="absolute bottom-0 left-0 h-2 w-2 border-b border-l border-accent" />
+							<span class="absolute bottom-0 right-0 h-2 w-2 border-r border-b border-accent" />
+						</div>
+					</div>
+					<div class="lazstore-label h-1.5 w-12 rounded-sm bg-accent/70" />
+				</div>
+			)
+		}
+
+		{
+			specimenId === 'brewit' && (
+				<div class="brewit absolute inset-0 flex items-end justify-center gap-2.5 px-4 pb-2.5">
+					<div class="brewit-bar h-full w-2.5 origin-bottom rounded-sm bg-accent/70" style="--brewit-scale: 0.45; animation-delay: 0s" />
+					<div class="brewit-bar h-full w-2.5 origin-bottom rounded-sm bg-accent/70" style="--brewit-scale: 0.8; animation-delay: 0.25s" />
+					<div class="brewit-bar h-full w-2.5 origin-bottom rounded-sm bg-accent/70" style="--brewit-scale: 0.6; animation-delay: 0.5s" />
+					<div class="brewit-bar h-full w-2.5 origin-bottom rounded-sm bg-accent/70" style="--brewit-scale: 0.95; animation-delay: 0.75s" />
+				</div>
+			)
+		}
+
+		{
+			specimenId === 'wo2go' && (
+				<div class="wo2go absolute inset-0">
+					<div class="absolute top-1/2 left-[12%] h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ink/50" />
+					{wo2goSpokes.map((spoke, i) => (
+						<div
+							class="wo2go-line absolute h-px origin-left bg-border-paper"
+							style={`top:${spoke.top}; left:12%; width:${spoke.length}px; --wo2go-angle:${spoke.angle}deg; animation-delay:${i * 0.3}s`}
+						/>
+					))}
+					{wo2goSpokes.map((spoke, i) => (
+						<div
+							class="wo2go-dot absolute h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-accent/80"
+							style={`top:${spoke.top}; left:${spoke.left}; animation-delay:${i * 0.3 + 0.2}s`}
+						/>
+					))}
+				</div>
+			)
+		}
+
+		{
+			!['life-os', 'uni-plan', 'laz-store', 'brewit', 'wo2go'].includes(specimenId) && (
+				<div class="flex h-full items-center justify-center">
+					<div class="h-1 w-12 rounded-full bg-border-paper" />
+				</div>
+			)
+		}
+	</div>
+	<p class="font-mono text-xs uppercase tracking-widest text-ink/40">{label}</p>
+</div>
+
+<style>
+	/* life-os: static state shows plain mail lines, chips hidden */
+	.lifeos-chip {
+		opacity: 0;
+	}
+	.lifeos-sweep {
+		opacity: 0;
+	}
+
+	/* uni-plan: static state shows the two blocks already overlapping */
+	.uniplan-block-b {
+		transform: translate(3px, 3px);
+	}
+
+	/* laz-store: static state shows the reticle already settled, label already present */
+	.lazstore-reticle {
+		opacity: 1;
+	}
+	.lazstore-label {
+		opacity: 1;
+	}
+
+	/* brewit: static state shows bars already at their target pour level */
+	.brewit-bar {
+		transform: scaleY(var(--brewit-scale));
+	}
+
+	/* wo2go: static state shows all spokes and destinations already drawn */
+	.wo2go-line {
+		transform-origin: left center;
+		transform: rotate(var(--wo2go-angle));
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.lifeos-sweep {
+			animation: lifeos-sweep 3.6s ease-in-out infinite;
+		}
+		.lifeos-chip {
+			animation: lifeos-chip-in 3.6s ease-in-out infinite;
+		}
+		.lifeos-line {
+			animation: lifeos-line-out 3.6s ease-in-out infinite;
+		}
+
+		.uniplan-block-b {
+			animation: uniplan-pulse 2.4s ease-in-out infinite;
+		}
+
+		.lazstore-reticle {
+			animation: lazstore-settle 3s ease-out infinite;
+		}
+		.lazstore-label {
+			animation: lazstore-label-in 3s ease-out infinite;
+		}
+
+		.brewit-bar {
+			animation: brewit-fill 2.8s ease-in-out infinite;
+		}
+
+		.wo2go-line {
+			animation: wo2go-draw 3.2s ease-out infinite;
+		}
+		.wo2go-dot {
+			animation: wo2go-dot-in 3.2s ease-out infinite;
+		}
+	}
+
+	@keyframes lifeos-sweep {
+		0% {
+			transform: translateX(-100%);
+			opacity: 0;
+		}
+		12% {
+			opacity: 1;
+		}
+		45% {
+			transform: translateX(700%);
+			opacity: 0;
+		}
+		100% {
+			transform: translateX(700%);
+			opacity: 0;
+		}
+	}
+	@keyframes lifeos-chip-in {
+		0%,
+		40% {
+			opacity: 0;
+			transform: scaleX(0.9);
+		}
+		55%,
+		100% {
+			opacity: 1;
+			transform: scaleX(1);
+		}
+	}
+	@keyframes lifeos-line-out {
+		0%,
+		40% {
+			opacity: 1;
+		}
+		55%,
+		100% {
+			opacity: 0;
+		}
+	}
+
+	@keyframes uniplan-pulse {
+		0%,
+		100% {
+			transform: translate(3px, 3px) scale(1);
+			opacity: 0.8;
+		}
+		50% {
+			transform: translate(3px, 3px) scale(1.15);
+			opacity: 1;
+		}
+	}
+
+	@keyframes lazstore-settle {
+		0% {
+			opacity: 0;
+			transform: scale(1.5);
+		}
+		30%,
+		100% {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+	@keyframes lazstore-label-in {
+		0%,
+		35% {
+			opacity: 0;
+			transform: translateY(4px);
+		}
+		55%,
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes brewit-fill {
+		0%,
+		15% {
+			transform: scaleY(0);
+		}
+		45%,
+		100% {
+			transform: scaleY(var(--brewit-scale));
+		}
+	}
+
+	@keyframes wo2go-draw {
+		0%,
+		15% {
+			transform: rotate(var(--wo2go-angle)) scaleX(0);
+			opacity: 0;
+		}
+		35%,
+		100% {
+			transform: rotate(var(--wo2go-angle)) scaleX(1);
+			opacity: 1;
+		}
+	}
+
+	@keyframes wo2go-dot-in {
+		0%,
+		15% {
+			opacity: 0;
+			transform: translateY(-50%) scale(0.4);
+		}
+		35%,
+		100% {
+			opacity: 1;
+			transform: translateY(-50%) scale(1);
+		}
+	}
+</style>
