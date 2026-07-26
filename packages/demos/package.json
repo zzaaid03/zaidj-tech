@@ -5,6 +5,7 @@
   "exports": {
     "./uni-plan/*": "./src/uni-plan/*",
     "./laz-store/*": "./src/laz-store/*",
-    "./wo2go/*": "./src/wo2go/*"
+    "./wo2go/*": "./src/wo2go/*",
+    "./brewit/*": "./src/brewit/*"
   }
 }
