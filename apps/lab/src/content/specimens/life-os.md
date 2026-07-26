@@ -26,7 +26,7 @@ keeping it in sync was itself a chore. I wanted one place that did the syncing f
 
 ## What the AI actually does
 
-The AI isn't one feature bolted on the side. It runs through three server-side functions.
+The AI isn't one feature bolted on the side, and it also isn't everywhere. Two server-side functions call the model. A third deliberately does not.
 
 **Inbox scanning.** It reads incoming mail, decides which messages relate to a job application, and
 extracts the company and the role. If that application already exists it updates the status rather
@@ -38,8 +38,7 @@ something you actually need to do, in which case it becomes a task.
 doable tasks that lead to it. A goal you'd otherwise never start becomes something you can begin
 this afternoon.
 
-**Daily brief.** A short morning summary built server-side from your tasks, goals, habits, and
-applications.
+**Daily brief.** A short morning summary of what is overdue, what is due today, your top priority, and where each application stands. This one has no model in it at all. Every sentence is assembled in code from your own data. A language model would have cost tokens to restate numbers I already have, and it could get them wrong. Counts about your own life are the last thing that should be hallucinated.
 
 **Why Llama 3.3 70B on Groq.** Cost, mainly. This is an app I use every day rather than a funded
 product, and a per-token bill would have killed it before it ever became useful. Groq's free tier
