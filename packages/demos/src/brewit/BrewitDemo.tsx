@@ -164,9 +164,9 @@ export default function BrewitDemo() {
         </section>
 
         <p className="font-mono text-xs text-ink/70">
-          Honest note: this is the real engine from Brewit running in your browser. Origin is recorded
-          as a note and does not change any number yet, and the export file does not import cleanly
-          into Bean Conqueror yet. Both are still on the list.
+          Honest note: this is the real engine from Brewit running in your browser. Origin is
+          recorded as a note and deliberately changes no numbers. The export file does not import
+          cleanly into Bean Conqueror yet, and that one is still on the list.
         </p>
       </div>
 
