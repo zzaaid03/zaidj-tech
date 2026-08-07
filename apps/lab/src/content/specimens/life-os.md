@@ -30,11 +30,13 @@ keeping it in sync was itself a chore. I wanted one place that did the syncing f
 
 The AI isn't one feature bolted on the side, and it also isn't everywhere. Three server-side functions call the model. A fourth deliberately does not.
 
-**Inbox scanning.** It reads incoming mail, decides which messages relate to a job application, and
-extracts the company and the role. If that application already exists it updates the status rather
-than creating a duplicate. It handles the obvious cases and the indirect ones, where neither the
-company nor the role is ever stated plainly. Unrelated mail is ignored, unless it contains
-something you actually need to do, in which case it becomes a task.
+**Inbox scanning.** It reads incoming mail looking for two things: an update to a job application,
+and anything else that needs an action from you, a bill due, an appointment, a subscription about
+to renew, a delivery to collect. For a job update it extracts the company and role and, if that
+application already exists, updates its status rather than creating a duplicate. It handles the
+obvious cases and the indirect ones, where neither company nor role is ever stated plainly. For a
+task it fills in a real due date when the email states one plainly, and leaves it blank rather than
+guess when it does not. Mail that fits neither is ignored.
 
 **Goal decomposition.** You type a goal in plain language and get back an ordered set of small,
 doable tasks that lead to it. A goal you'd otherwise never start becomes something you can begin

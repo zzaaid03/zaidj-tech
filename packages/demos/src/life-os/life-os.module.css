@@ -371,6 +371,81 @@
   padding: 12px 0;
 }
 
+/* ---------- add file / search screens ---------- */
+
+.filePreviewRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--lo-surface);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 20px;
+}
+
+.fileIcon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.filePreviewName {
+  color: var(--lo-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.fieldLabel {
+  display: block;
+  color: var(--lo-muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+
+.textInput {
+  width: 100%;
+  background: var(--lo-surface);
+  color: var(--lo-text);
+  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.textInput:focus-visible {
+  outline: 2px solid var(--lo-primary);
+  outline-offset: 2px;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--lo-text);
+  font-size: 14px;
+  margin-bottom: 28px;
+  cursor: pointer;
+}
+
+.toggleInput {
+  accent-color: var(--lo-primary);
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.privateBadge {
+  composes: statusPill;
+  background: rgba(147, 160, 153, 0.16);
+  color: var(--lo-muted);
+  white-space: nowrap;
+}
+
 .snackbar {
   position: absolute;
   left: 16px;

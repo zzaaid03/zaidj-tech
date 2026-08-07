@@ -3,6 +3,8 @@ import styles from './life-os.module.css';
 import ConnectGmailModal from './screens/ConnectGmailModal';
 import ScanScreen from './screens/ScanScreen';
 import ResultsScreen from './screens/ResultsScreen';
+import AddFileScreen from './screens/AddFileScreen';
+import SearchScreen from './screens/SearchScreen';
 
 export interface SuggestedTask {
   id: string;
@@ -19,6 +21,16 @@ export interface JobApplication {
   summary: string;
 }
 
+export interface StoredFile {
+  id: string;
+  name: string;
+  note: string;
+  // Synonyms the AI attached at upload time from the note and file name alone.
+  // A private file never has these: it skips the model entirely.
+  synonyms: string[];
+  isPrivate: boolean;
+}
+
 const INITIAL_TASKS: SuggestedTask[] = [
   {
     id: 't1',
@@ -28,9 +40,37 @@ const INITIAL_TASKS: SuggestedTask[] = [
   },
   {
     id: 't2',
-    title: 'Send the signed rental contract back to the landlord',
-    due: 'In 3 days',
+    title: 'Pay your electric bill, $84.12 due',
+    due: 'In 5 days',
+    priority: 'high',
+  },
+  {
+    id: 't3',
+    title: 'Cancel or confirm your streaming subscription renewal',
+    due: 'In 6 days',
     priority: 'medium',
+  },
+  {
+    id: 't4',
+    title: 'Attend your dentist appointment',
+    due: 'In 4 days',
+    priority: 'medium',
+  },
+  {
+    id: 't5',
+    title: 'Collect your parcel before it is returned to sender',
+    due: 'In 2 days',
+    priority: 'medium',
+  },
+];
+
+const INITIAL_FILES: StoredFile[] = [
+  {
+    id: 'f1',
+    name: 'passport_scan.jpg',
+    note: 'My passport',
+    synonyms: [],
+    isPrivate: true,
   },
 ];
 
@@ -58,12 +98,15 @@ const SCREENS = [
   { label: 'Scanning' },
   { label: 'Results' },
   { label: 'Task added' },
+  { label: 'Add a file' },
+  { label: 'Search' },
 ] as const;
 
 export default function LifeOsDemo() {
   const [screen, setScreen] = useState(0);
   const [tasks, setTasks] = useState<SuggestedTask[]>(INITIAL_TASKS);
   const [jobs, setJobs] = useState<JobApplication[]>(INITIAL_JOBS);
+  const [files, setFiles] = useState<StoredFile[]>(INITIAL_FILES);
   const [snackbarMessage, setSnackbarMessage] = useState<string | null>(null);
 
   const goTo = useCallback((next: number) => {
@@ -111,6 +154,24 @@ export default function LifeOsDemo() {
   const handleDismissJob = useCallback((id: string) => {
     setJobs((prev) => prev.filter((j) => j.id !== id));
   }, []);
+
+  const handleAddFile = useCallback(
+    (note: string, isPrivate: boolean) => {
+      setFiles((prev) => [
+        ...prev,
+        {
+          id: `f${prev.length + 1}`,
+          name: 'lease_signed_2026.pdf',
+          note,
+          // A private file skips the model entirely, so it earns no synonyms.
+          synonyms: isPrivate ? [] : ['tenancy', 'rental contract', 'rental agreement'],
+          isPrivate,
+        },
+      ]);
+      goTo(6);
+    },
+    [goTo],
+  );
 
   return (
     <div className="life-os-root" onKeyDown={handleKeyDown}>
@@ -185,14 +246,17 @@ export default function LifeOsDemo() {
                 snackbarMessage={screen === 4 ? snackbarMessage : null}
               />
             )}
+            {screen === 5 && <AddFileScreen onAdd={handleAddFile} />}
+            {screen === 6 && <SearchScreen files={files} />}
           </div>
         </div>
 
         <p className="max-w-[412px] text-center font-mono text-xs text-muted">
-          Interactive recreation of the Life OS inbox scan, rebuilt for the web from the Flutter app. The
-          suggestions shown are the app&apos;s own demo-mode fixtures. In the real app the scan runs
-          server-side: email bodies never reach the client and are never stored, and only the derived
-          tasks and job updates come back.
+          Interactive recreation of the Life OS inbox scan and file search, rebuilt for the web from
+          the Flutter app. The data shown is the app&apos;s own demo-mode fixtures. In the real app
+          the scan covers bills, appointments, renewals and deliveries alongside job updates, runs
+          server-side so email bodies never reach the client, and a stored file is found by the note
+          you wrote about it, never by its contents.
         </p>
       </div>
     </div>
