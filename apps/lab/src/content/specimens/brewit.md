@@ -27,4 +27,8 @@ The newest piece is a live brew mode. The recipe already knew the timing, but re
 
 I also cut saved recipes. They were tied to anonymous auth, so a recipe lived in one browser and disappeared the moment site data was cleared. Building real accounts was more than this project needed, so the feature went instead of growing. The export is how you keep a recipe now, and the app talks to no server at all.
 
-Honest status: this one is still in the lab. The export does not round trip, and there is still no way to log what you actually brewed and feed it back in, which is the next thing I want to fix. The engine and the brew timer are the parts I would defend. The rest of the app is not finished.
+The newest addition closes part of that gap. If the cup came out sour you press one button and the recipe corrects itself, one variable at a time, and it lists what it changed. Grind for sour and bitter, ratio for weak, temperature for dry. When a setting has nowhere left to go it says so instead of pretending it adjusted something, which took two attempts to get right. The first version checked the number you typed rather than the number the engine actually uses after its own shifts, so it reported changes that never happened.
+
+I also pulled the origin list from a public coffee database at build time instead of calling it from the browser, so each country now carries a real description. The app makes no network requests at all now.
+
+Honest status: this one is still in the lab. The export does not round trip. The corrections only live in the current session, so there is still no brew log and closing the tab loses everything. The engine and the brew timer are the parts I would defend. The rest of the app is not finished.

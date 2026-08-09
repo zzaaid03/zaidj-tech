@@ -27,6 +27,8 @@ export interface BrewInput {
   // waterTempC is optional; when omitted the engine will compute an appropriate temp
   waterTempC?: number
   experience?: Experience
+  // grindOffset is optional; positive steps coarser, negative steps finer
+  grindOffset?: number
 }
 
 export interface PourStep {
@@ -105,12 +107,54 @@ const targetTimeByMethod: Record<BrewMethod, string> = {
   Chemex: '3:45 - 4:30',
 }
 
+const profileDefaults: Record<Experience, { doseGrams: number; ratio: number }> = {
+  beginner: { doseGrams: 18, ratio: 16.5 },
+  amateur: { doseGrams: 20, ratio: 16 },
+  expert: { doseGrams: 20, ratio: 16 },
+}
+
+const baseTempByMethod: Record<BrewMethod, number> = {
+  V60: 94,
+  'Kalita Wave': 94,
+  Chemex: 95,
+}
+
+const experienceTempShift: Record<Experience, number> = {
+  beginner: 0.8,
+  amateur: 0,
+  expert: -0.8,
+}
+
 function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value))
 }
 
 function roundToTenths(value: number): number {
   return Math.round(value * 10) / 10
+}
+
+function effectiveRatio(input: BrewInput): number {
+  const experience: Experience = input.experience ?? 'amateur'
+  const baseRatio = input.ratio ?? profileDefaults[experience].ratio
+  return roundToTenths(
+    clamp(baseRatio + roastRatioShift[input.roastLevel] + tasteRatioShift[input.tasteGoal], 14, 18),
+  )
+}
+
+function effectiveTemp(input: BrewInput): number {
+  const experience: Experience = input.experience ?? 'amateur'
+  const baseTemp = input.waterTempC ?? baseTempByMethod[input.method]
+  return Math.round(
+    clamp(
+      baseTemp +
+        roastTempShift[input.roastLevel] +
+        tasteTempShift[input.tasteGoal] +
+        experienceTempShift[experience] +
+        processTempShift[input.process],
+      88,
+      97,
+    ),
+  )
 }
 
 function buildV60Pours(totalWater: number, bloomWater: number): PourStep[] {
@@ -268,46 +312,14 @@ function buildRoastGoalNote(roastLevel: RoastLevel, tasteGoal: TasteGoal): strin
 export function generateRecipe(input: BrewInput): GeneratedRecipe {
   const experience: Experience = input.experience ?? 'amateur'
 
-  const profileDefaults: Record<Experience, { doseGrams: number; ratio: number }> = {
-    beginner: { doseGrams: 18, ratio: 16.5 },
-    amateur: { doseGrams: 20, ratio: 16 },
-    expert: { doseGrams: 20, ratio: 16 },
-  }
-
-  const experienceTempShift: Record<Experience, number> = {
-    beginner: 0.8,
-    amateur: 0,
-    expert: -0.8,
-  }
-
   const baseDose = input.doseGrams ?? profileDefaults[experience].doseGrams
   const normalizedDose = clamp(baseDose, 10, 40)
 
-  const baseRatio = input.ratio ?? profileDefaults[experience].ratio
-  const adjustedRatio = roundToTenths(
-    clamp(baseRatio + roastRatioShift[input.roastLevel] + tasteRatioShift[input.tasteGoal], 14, 18),
-  )
-
-  const baseTempByMethod: Record<BrewMethod, number> = {
-    V60: 94,
-    'Kalita Wave': 94,
-    Chemex: 95,
-  }
-  const baseTemp = input.waterTempC ?? baseTempByMethod[input.method]
-  const adjustedTemp = Math.round(
-    clamp(
-      baseTemp +
-        roastTempShift[input.roastLevel] +
-        tasteTempShift[input.tasteGoal] +
-        experienceTempShift[experience] +
-        processTempShift[input.process],
-      88,
-      97,
-    ),
-  )
+  const adjustedRatio = effectiveRatio(input)
+  const adjustedTemp = effectiveTemp(input)
 
   const grindIndex = clamp(
-    grindBaseIndexByMethod[input.method] + grindRoastStep[input.roastLevel],
+    grindBaseIndexByMethod[input.method] + grindRoastStep[input.roastLevel] + (input.grindOffset ?? 0),
     0,
     grindScale.length - 1,
   )
@@ -336,5 +348,82 @@ export function generateRecipe(input: BrewInput): GeneratedRecipe {
       weak: 'Tighten ratio (example 1:16 to 1:15.3) or add one extra pulse pour.',
       dry: 'Reduce late swirling and shorten drawdown; avoid over-extracting the tail.',
     },
+  }
+}
+
+export interface DialInResult {
+  input: BrewInput
+  changed: boolean
+  lever: 'grind' | 'ratio' | 'temp'
+  description: string
+}
+
+export function adjustForIssue(input: BrewInput, issue: CupIssue): DialInResult {
+  if (issue === 'sour' || issue === 'bitter') {
+    const step = issue === 'sour' ? -1 : 1
+    const currentOffset = input.grindOffset ?? 0
+    const nextOffset = currentOffset + step
+    const nextIndex =
+      grindBaseIndexByMethod[input.method] + grindRoastStep[input.roastLevel] + nextOffset
+
+    if (nextIndex < 0 || nextIndex > grindScale.length - 1) {
+      return {
+        input,
+        changed: false,
+        lever: 'grind',
+        description:
+          step < 0
+            ? 'Already as fine as this grinder scale goes.'
+            : 'Already as coarse as this grinder scale goes.',
+      }
+    }
+
+    return {
+      input: { ...input, grindOffset: nextOffset },
+      changed: true,
+      lever: 'grind',
+      description: step < 0 ? 'Ground one step finer.' : 'Ground one step coarser.',
+    }
+  }
+
+  if (issue === 'weak') {
+    const experience: Experience = input.experience ?? 'amateur'
+    const currentRatio = input.ratio ?? profileDefaults[experience].ratio
+    const candidate: BrewInput = { ...input, ratio: roundToTenths(currentRatio - 0.5) }
+
+    if (effectiveRatio(candidate) === effectiveRatio(input)) {
+      return {
+        input,
+        changed: false,
+        lever: 'ratio',
+        description: 'Already at the tightest ratio this recipe supports.',
+      }
+    }
+
+    return {
+      input: candidate,
+      changed: true,
+      lever: 'ratio',
+      description: 'Tightened the ratio by 0.5.',
+    }
+  }
+
+  const currentTemp = input.waterTempC ?? baseTempByMethod[input.method]
+  const candidate: BrewInput = { ...input, waterTempC: currentTemp - 1 }
+
+  if (effectiveTemp(candidate) === effectiveTemp(input)) {
+    return {
+      input,
+      changed: false,
+      lever: 'temp',
+      description: 'Already at the coolest water temp this recipe supports.',
+    }
+  }
+
+  return {
+    input: candidate,
+    changed: true,
+    lever: 'temp',
+    description: 'Dropped water temp by 1°C.',
   }
 }

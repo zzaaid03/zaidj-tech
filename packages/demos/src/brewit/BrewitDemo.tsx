@@ -1,5 +1,6 @@
 import { useId, useMemo, useState } from 'react';
 import {
+  adjustForIssue,
   generateRecipe,
   type BrewInput,
   type BrewMethod,
@@ -30,12 +31,47 @@ export default function BrewitDemo() {
   const [origin, setOrigin] = useState('');
   const [showTimer, setShowTimer] = useState(false);
 
+  const [dialIn, setDialIn] = useState<Pick<BrewInput, 'grindOffset' | 'ratio' | 'waterTempC'>>({});
+  const [dialInLog, setDialInLog] = useState<string[]>([]);
+  const [dialInMessage, setDialInMessage] = useState('');
+
   const input: BrewInput = useMemo(
-    () => ({ method, roastLevel, process, tasteGoal, experience, origin }),
-    [method, roastLevel, process, tasteGoal, experience, origin],
+    () => ({ method, roastLevel, process, tasteGoal, experience, origin, ...dialIn }),
+    [method, roastLevel, process, tasteGoal, experience, origin, dialIn],
   );
 
   const recipe = useMemo(() => generateRecipe(input), [input]);
+
+  function resetDialIn() {
+    setDialIn({});
+    setDialInLog([]);
+    setDialInMessage('');
+  }
+
+  function withBaseSettingReset<T>(setter: (value: T) => void) {
+    return (value: T) => {
+      resetDialIn();
+      setter(value);
+    };
+  }
+
+  function handleDialIn(issue: CupIssue) {
+    const result = adjustForIssue(input, issue);
+
+    if (!result.changed) {
+      setDialInMessage(result.description);
+      return;
+    }
+
+    setDialInMessage('');
+    setDialInLog((log) => [...log, result.description]);
+    setDialIn((current) => ({
+      ...current,
+      grindOffset: result.input.grindOffset,
+      ratio: result.input.ratio,
+      waterTempC: result.input.waterTempC,
+    }));
+  }
 
   function handleDownload() {
     downloadBeanConquerorExport(recipe, input);
@@ -56,7 +92,7 @@ export default function BrewitDemo() {
               <select
                 id={`${formId}-method`}
                 value={method}
-                onChange={(e) => setMethod(e.target.value as BrewMethod)}
+                onChange={(e) => withBaseSettingReset(setMethod)(e.target.value as BrewMethod)}
                 className="rounded-sm border border-border-paper bg-paper px-3 py-2 text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 {METHODS.map((m) => (
@@ -74,7 +110,7 @@ export default function BrewitDemo() {
               <select
                 id={`${formId}-roast`}
                 value={roastLevel}
-                onChange={(e) => setRoastLevel(e.target.value as RoastLevel)}
+                onChange={(e) => withBaseSettingReset(setRoastLevel)(e.target.value as RoastLevel)}
                 className="rounded-sm border border-border-paper bg-paper px-3 py-2 text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 {ROASTS.map((r) => (
@@ -92,7 +128,7 @@ export default function BrewitDemo() {
               <select
                 id={`${formId}-process`}
                 value={process}
-                onChange={(e) => setProcess(e.target.value as ProcessType)}
+                onChange={(e) => withBaseSettingReset(setProcess)(e.target.value as ProcessType)}
                 className="rounded-sm border border-border-paper bg-paper px-3 py-2 text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 {PROCESSES.map((p) => (
@@ -110,7 +146,7 @@ export default function BrewitDemo() {
               <select
                 id={`${formId}-taste`}
                 value={tasteGoal}
-                onChange={(e) => setTasteGoal(e.target.value as TasteGoal)}
+                onChange={(e) => withBaseSettingReset(setTasteGoal)(e.target.value as TasteGoal)}
                 className="rounded-sm border border-border-paper bg-paper px-3 py-2 text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 {TASTE_GOALS.map((t) => (
@@ -128,7 +164,7 @@ export default function BrewitDemo() {
               <select
                 id={`${formId}-experience`}
                 value={experience}
-                onChange={(e) => setExperience(e.target.value as Experience)}
+                onChange={(e) => withBaseSettingReset(setExperience)(e.target.value as Experience)}
                 className="rounded-sm border border-border-paper bg-paper px-3 py-2 text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 {EXPERIENCES.map((ex) => (
@@ -245,17 +281,54 @@ export default function BrewitDemo() {
         </section>
 
         <section aria-labelledby={`${formId}-troubleshooting-heading`} className="rounded-md border border-border-paper bg-ink/[0.03] p-4">
-          <h2 id={`${formId}-troubleshooting-heading`} className="font-sans text-lg font-semibold">
-            Troubleshooting
-          </h2>
+          <div className="flex items-center justify-between gap-3">
+            <h2 id={`${formId}-troubleshooting-heading`} className="font-sans text-lg font-semibold">
+              Troubleshooting
+            </h2>
+            {dialInLog.length > 0 ? (
+              <button
+                type="button"
+                onClick={resetDialIn}
+                className="font-mono text-xs uppercase tracking-wide text-ink/70 underline underline-offset-2 hover:text-ink"
+              >
+                Start over
+              </button>
+            ) : null}
+          </div>
           <dl className="mt-2 flex flex-col gap-2">
             {CUP_ISSUES.map((issue) => (
-              <div key={issue}>
-                <dt className="font-mono text-xs uppercase tracking-wide text-ink/70">{issue}</dt>
-                <dd className="font-mono text-xs text-ink">{recipe.troubleshooting[issue]}</dd>
+              <div key={issue} className="flex items-center justify-between gap-3">
+                <div>
+                  <dt className="font-mono text-xs uppercase tracking-wide text-ink/70">{issue}</dt>
+                  <dd className="font-mono text-xs text-ink">{recipe.troubleshooting[issue]}</dd>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleDialIn(issue)}
+                  className="shrink-0 rounded-sm border border-border-paper px-3 py-1.5 font-mono text-xs uppercase tracking-wide text-ink outline-none transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  Got this
+                </button>
               </div>
             ))}
           </dl>
+
+          {dialInMessage ? (
+            <p className="mt-3 font-mono text-xs text-ink/70">{dialInMessage}</p>
+          ) : null}
+
+          {dialInLog.length > 0 ? (
+            <div className="mt-3 border-t border-border-paper pt-3">
+              <p className="font-mono text-xs uppercase tracking-wide text-ink/70">Dial-in applied</p>
+              <ul className="mt-2 flex flex-col gap-1">
+                {dialInLog.map((entry, i) => (
+                  <li key={i} className="font-mono text-xs text-ink">
+                    {entry}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </section>
       </div>
     </div>
