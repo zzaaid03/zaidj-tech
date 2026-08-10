@@ -31,4 +31,6 @@ The newest addition closes part of that gap. If the cup came out sour you press 
 
 I also pulled the origin list from a public coffee database at build time instead of calling it from the browser, so each country now carries a real description. The app makes no network requests at all now.
 
+The recipe prints too. One button collapses the page to a single black on white card with the bean details, the numbers, the pour schedule, and any corrections you made, so it can sit on the counter instead of a phone that keeps going to sleep. That one is in the app itself, not in the demo above.
+
 Honest status: this one is still in the lab. The export does not round trip. The corrections only live in the current session, so there is still no brew log and closing the tab loses everything. The engine and the brew timer are the parts I would defend. The rest of the app is not finished.
