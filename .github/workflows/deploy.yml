@@ -33,7 +33,7 @@ jobs:
       - name: Check Brewit engine is in sync
         run: pnpm sync:brewit:check
         env:
-          BREWIT_ENGINE_PATH: .brewit-src/src/lib/brewEngine.ts
+          BREWIT_REPO_PATH: .brewit-src
 
       - run: pnpm test
 

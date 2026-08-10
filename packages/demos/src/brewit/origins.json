@@ -1,0 +1,162 @@
+[
+  {
+    "name": "Bolivia",
+    "description": "Bolivia: High-altitude Arabica thrives in the Andes, producing complex, fruity, and floral coffees with bright acidity."
+  },
+  {
+    "name": "Brazil",
+    "description": "Brazil: Dominant global producer, known for vast plantations and diverse varietals, primarily natural and pulped natural processing."
+  },
+  {
+    "name": "Burundi",
+    "description": "Burundi: High-altitude, washed coffees, often with bright acidity and floral notes, from smallholder farms."
+  },
+  {
+    "name": "China",
+    "description": "China: Emerging specialty coffee producer, focusing on Yunnan. Known for unique terroir and growing processing innovation."
+  },
+  {
+    "name": "Colombia",
+    "description": "Colombia: Renowned for its diverse microclimates and innovative processing, producing consistently high-quality, balanced, and often fruity coffees."
+  },
+  {
+    "name": "Costa Rica",
+    "description": "Costa Rica: Renowned for its vibrant, clean cups, often showcasing citrus and floral notes, with a strong commitment to quality and sustainability."
+  },
+  {
+    "name": "Democratic Republic Of The Congo",
+    "description": "DRC: A nation with immense coffee potential, grappling with infrastructure and political instability, yet producing unique, often wild-grown, coffees with distinct flavor profiles."
+  },
+  {
+    "name": "Ecuador",
+    "description": "Ecuador: Diverse microclimates yield unique, high-quality Arabica coffees, often with floral and citrus notes, especially from the Galapagos and Loja regions."
+  },
+  {
+    "name": "El Salvador",
+    "description": "El Salvador: Renowned for its high-quality Bourbon and Pacamara varietals, often exhibiting bright acidity and sweet, fruity notes."
+  },
+  {
+    "name": "Ethiopia",
+    "description": "Ethiopia: Birthplace of coffee, renowned for diverse heirloom varieties and complex, floral, and fruity flavor profiles, a cornerstone of global specialty coffee."
+  },
+  {
+    "name": "Guatemala",
+    "description": "Guatemala: Volcanic soils and diverse microclimates yield complex, vibrant coffees, often with notes of chocolate and fruit."
+  },
+  {
+    "name": "Hawaii",
+    "description": "Hawaii: Volcanic soils and unique microclimates yield exceptional, high-value Arabica coffees, primarily Kona."
+  },
+  {
+    "name": "Honduras",
+    "description": "Honduras: A rising Central American star, known for its diverse microclimates yielding vibrant, often fruity, and complex specialty coffees."
+  },
+  {
+    "name": "India",
+    "description": "India: Diverse microclimates yield robusta and arabica, often monsoon-processed, offering unique, bold, and spicy flavor profiles."
+  },
+  {
+    "name": "Indonesia",
+    "description": "Indonesia: Archipelago of volcanic soils, producing diverse, bold, and often earthy coffees, renowned for rich body and unique processing methods."
+  },
+  {
+    "name": "Jamaica",
+    "description": "Jamaica: Renowned for its Blue Mountain coffee, a highly sought-after, mild, and aromatic Arabica, grown at high altitudes."
+  },
+  {
+    "name": "Kenya",
+    "description": "Kenya: Renowned for vibrant, complex coffees with bright acidity, often exhibiting blackcurrant and floral notes. A benchmark for quality."
+  },
+  {
+    "name": "Laos",
+    "description": "Laos: Emerging specialty coffee producer in Southeast Asia, known for its Arabica and Robusta, often with floral and fruity notes."
+  },
+  {
+    "name": "Malaysia",
+    "description": "Malaysia: Emerging specialty coffee scene, known for unique Robusta and experimental Arabica cultivation, often influenced by climate and innovative processing."
+  },
+  {
+    "name": "Mexico",
+    "description": "Mexico: Diverse microclimates yield vibrant, complex coffees, often with chocolate and nutty notes, from Oaxaca to Chiapas."
+  },
+  {
+    "name": "Myanmar",
+    "description": "Myanmar: Emerging specialty coffee, known for unique terroir and promising Arabica and Robusta varietals, gaining international recognition."
+  },
+  {
+    "name": "Nepal",
+    "description": "Nepal: High-altitude Nepalese coffee offers delicate floral and citrus notes, a testament to its unique Himalayan terroir."
+  },
+  {
+    "name": "Nicaragua",
+    "description": "Nicaragua: Rich volcanic soil yields diverse, high-quality beans, often with bright acidity and sweet, chocolatey notes."
+  },
+  {
+    "name": "Panama",
+    "description": "Panama: Renowned for its high-altitude microclimates, producing exceptional Geisha and other varietals. Focus on quality, innovation, and sustainable practices."
+  },
+  {
+    "name": "Papua New Guinea",
+    "description": "Papua New Guinea: Known for its wild, often Bourbon and Typica varietals, offering complex, fruity, and floral notes, highly sought after in specialty markets."
+  },
+  {
+    "name": "Peru",
+    "description": "Peru: A rising star in specialty coffee, known for its diverse microclimates yielding vibrant, complex, and often organic beans."
+  },
+  {
+    "name": "Philippines",
+    "description": "Philippines: Emerging specialty producer with unique Arabica and Robusta varietals, known for its distinct terroir and growing focus on quality."
+  },
+  {
+    "name": "Rwanda",
+    "description": "Rwanda: Emerging East African powerhouse, known for vibrant acidity, floral notes, and increasing focus on washed processing and direct trade."
+  },
+  {
+    "name": "South Africa",
+    "description": "South Africa: Emerging specialty producer, known for unique varietals and innovative processing, gaining global recognition for quality."
+  },
+  {
+    "name": "Sudan",
+    "description": "Sudan's specialty potential is largely untapped, with a rich history of coffee cultivation and unique varietals awaiting discovery and development."
+  },
+  {
+    "name": "Sumatra",
+    "description": "Sumatra: Earthy, bold, and complex. Known for its unique wet-hulling process, offering a distinctive profile prized in specialty coffee."
+  },
+  {
+    "name": "Taiwan",
+    "description": "Taiwan: Emerging specialty producer, known for high-quality, often floral and fruity, single-origin Taiwanese coffees."
+  },
+  {
+    "name": "Tanzania",
+    "description": "Tanzania: Known for its vibrant, complex coffees, particularly from Kilimanjaro and the Southern Highlands, offering bright acidity and fruity notes."
+  },
+  {
+    "name": "Thailand",
+    "description": "Thailand offers unique, high-altitude Arabicas and robustas, increasingly recognized for quality and distinct flavor profiles in the specialty market."
+  },
+  {
+    "name": "Timor Leste",
+    "description": "Timor-Leste: Emerging specialty producer with unique Arabica varieties, often exhibiting bright acidity and complex floral/fruity notes. Growing recognition in the specialty market."
+  },
+  {
+    "name": "Uganda",
+    "description": "Uganda: Emerging specialty producer, known for robust, fruity coffees, particularly from the Rwenzori Mountains and Bugisu regions. Growing in quality and recognition."
+  },
+  {
+    "name": "Venezuela",
+    "description": "Venezuela: Once a specialty powerhouse, now facing challenges, but its unique high-altitude beans hold immense potential for revival."
+  },
+  {
+    "name": "Vietnam",
+    "description": "Vietnam: A powerhouse in Robusta production, increasingly exploring specialty Arabica, offering unique flavor profiles and sustainable practices."
+  },
+  {
+    "name": "Yemen",
+    "description": "Yemen: Ancient birthplace of coffee cultivation, renowned for its unique, wild, and heirloom varietals, often processed naturally, yielding complex, wine-like, and fruity profiles."
+  },
+  {
+    "name": "Zambia",
+    "description": "Zambia: Emerging specialty coffee, known for bright acidity and complex fruit notes, particularly from the high-altitude regions."
+  }
+]
