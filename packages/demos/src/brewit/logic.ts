@@ -8,7 +8,7 @@
  * here and commit the result. CI fails the deploy if this file falls behind.
  */
 
-export type BrewMethod = 'V60' | 'Kalita Wave' | 'Chemex'
+export type BrewMethod = 'V60' | 'Kalita Wave' | 'Chemex' | 'AeroPress' | 'French Press'
 export type RoastLevel = 'light' | 'medium' | 'dark'
 export type ProcessType = 'washed' | 'natural' | 'honey' | 'anaerobic' | 'other'
 export type TasteGoal = 'balanced' | 'bright' | 'sweet' | 'bold'
@@ -36,9 +36,17 @@ export interface PourStep {
   time: string
   waterGrams: number
   detail: string
+  kind?: 'pour' | 'steep' | 'plunge'
 }
 
-export type GrindSetting = 'fine' | 'medium-fine' | 'medium' | 'medium-coarse' | 'coarse'
+export type GrindSetting =
+  | 'extra-fine'
+  | 'fine'
+  | 'medium-fine'
+  | 'medium'
+  | 'medium-coarse'
+  | 'coarse'
+  | 'extra-coarse'
 
 export interface GeneratedRecipe {
   title: string
@@ -87,12 +95,22 @@ const processTempShift: Record<ProcessType, number> = {
   other: 0,
 }
 
-const grindScale: GrindSetting[] = ['fine', 'medium-fine', 'medium', 'medium-coarse', 'coarse']
+const grindScale: GrindSetting[] = [
+  'extra-fine',
+  'fine',
+  'medium-fine',
+  'medium',
+  'medium-coarse',
+  'coarse',
+  'extra-coarse',
+]
 
 const grindBaseIndexByMethod: Record<BrewMethod, number> = {
   V60: grindScale.indexOf('medium-fine'),
   'Kalita Wave': grindScale.indexOf('medium'),
   Chemex: grindScale.indexOf('medium-coarse'),
+  AeroPress: grindScale.indexOf('fine'),
+  'French Press': grindScale.indexOf('coarse'),
 }
 
 const grindRoastStep: Record<RoastLevel, number> = {
@@ -101,10 +119,23 @@ const grindRoastStep: Record<RoastLevel, number> = {
   dark: 1,
 }
 
+const grindLimitsByMethod: Record<BrewMethod, { min: number; max: number }> = {
+  V60: { min: grindScale.indexOf('fine'), max: grindScale.indexOf('coarse') },
+  'Kalita Wave': { min: grindScale.indexOf('fine'), max: grindScale.indexOf('coarse') },
+  Chemex: { min: grindScale.indexOf('fine'), max: grindScale.indexOf('coarse') },
+  AeroPress: { min: grindScale.indexOf('extra-fine'), max: grindScale.indexOf('medium') },
+  'French Press': {
+    min: grindScale.indexOf('medium-coarse'),
+    max: grindScale.indexOf('extra-coarse'),
+  },
+}
+
 const targetTimeByMethod: Record<BrewMethod, string> = {
   V60: '2:45 - 3:15',
   'Kalita Wave': '2:50 - 3:30',
   Chemex: '3:45 - 4:30',
+  AeroPress: '1:45 - 2:15',
+  'French Press': '4:00 - 4:30',
 }
 
 const profileDefaults: Record<Experience, { doseGrams: number; ratio: number }> = {
@@ -113,10 +144,32 @@ const profileDefaults: Record<Experience, { doseGrams: number; ratio: number }> 
   expert: { doseGrams: 20, ratio: 16 },
 }
 
+const methodDefaults: Partial<Record<BrewMethod, { doseGrams: number; ratio: number }>> = {
+  AeroPress: { doseGrams: 15, ratio: 14 },
+}
+
 const baseTempByMethod: Record<BrewMethod, number> = {
   V60: 94,
   'Kalita Wave': 94,
   Chemex: 95,
+  AeroPress: 85,
+  'French Press': 94,
+}
+
+const ratioLimitsByMethod: Record<BrewMethod, { min: number; max: number }> = {
+  V60: { min: 14, max: 18 },
+  'Kalita Wave': { min: 14, max: 18 },
+  Chemex: { min: 14, max: 18 },
+  AeroPress: { min: 11, max: 16 },
+  'French Press': { min: 14, max: 18 },
+}
+
+const tempLimitsByMethod: Record<BrewMethod, { min: number; max: number }> = {
+  V60: { min: 88, max: 97 },
+  'Kalita Wave': { min: 88, max: 97 },
+  Chemex: { min: 88, max: 97 },
+  AeroPress: { min: 75, max: 95 },
+  'French Press': { min: 88, max: 97 },
 }
 
 const experienceTempShift: Record<Experience, number> = {
@@ -135,15 +188,22 @@ function roundToTenths(value: number): number {
 
 function effectiveRatio(input: BrewInput): number {
   const experience: Experience = input.experience ?? 'amateur'
-  const baseRatio = input.ratio ?? profileDefaults[experience].ratio
+  const baseRatio =
+    input.ratio ?? methodDefaults[input.method]?.ratio ?? profileDefaults[experience].ratio
+  const limits = ratioLimitsByMethod[input.method]
   return roundToTenths(
-    clamp(baseRatio + roastRatioShift[input.roastLevel] + tasteRatioShift[input.tasteGoal], 14, 18),
+    clamp(
+      baseRatio + roastRatioShift[input.roastLevel] + tasteRatioShift[input.tasteGoal],
+      limits.min,
+      limits.max,
+    ),
   )
 }
 
 function effectiveTemp(input: BrewInput): number {
   const experience: Experience = input.experience ?? 'amateur'
   const baseTemp = input.waterTempC ?? baseTempByMethod[input.method]
+  const limits = tempLimitsByMethod[input.method]
   return Math.round(
     clamp(
       baseTemp +
@@ -151,9 +211,18 @@ function effectiveTemp(input: BrewInput): number {
         tasteTempShift[input.tasteGoal] +
         experienceTempShift[experience] +
         processTempShift[input.process],
-      88,
-      97,
+      limits.min,
+      limits.max,
     ),
+  )
+}
+
+function effectiveGrindIndex(input: BrewInput): number {
+  const limits = grindLimitsByMethod[input.method]
+  return clamp(
+    grindBaseIndexByMethod[input.method] + grindRoastStep[input.roastLevel] + (input.grindOffset ?? 0),
+    limits.min,
+    limits.max,
   )
 }
 
@@ -260,6 +329,72 @@ function buildChemexPours(totalWater: number, bloomWater: number): PourStep[] {
   ]
 }
 
+function buildAeroPressPours(totalWater: number, bloomWater: number): PourStep[] {
+  return [
+    {
+      label: 'Bloom',
+      time: '00:00',
+      waterGrams: bloomWater,
+      detail: 'Wet the grounds and stir once.',
+      kind: 'pour',
+    },
+    {
+      label: 'Fill',
+      time: '00:30',
+      waterGrams: totalWater - bloomWater,
+      detail: 'Pour the rest of the water to the top.',
+      kind: 'pour',
+    },
+    {
+      label: 'Steep',
+      time: '01:00',
+      waterGrams: 0,
+      detail: 'Cap it and leave it alone.',
+      kind: 'steep',
+    },
+    {
+      label: 'Press',
+      time: '01:30',
+      waterGrams: 0,
+      detail: 'Press slowly, about 30 seconds.',
+      kind: 'plunge',
+    },
+  ]
+}
+
+function buildFrenchPressPours(totalWater: number, bloomWater: number): PourStep[] {
+  return [
+    {
+      label: 'Saturate',
+      time: '00:00',
+      waterGrams: bloomWater,
+      detail: 'Wet all the grounds and stir once.',
+      kind: 'pour',
+    },
+    {
+      label: 'Fill',
+      time: '00:45',
+      waterGrams: totalWater - bloomWater,
+      detail: 'Fill to total and put the lid on.',
+      kind: 'pour',
+    },
+    {
+      label: 'Steep',
+      time: '01:15',
+      waterGrams: 0,
+      detail: 'Leave it for about three minutes.',
+      kind: 'steep',
+    },
+    {
+      label: 'Break and press',
+      time: '04:00',
+      waterGrams: 0,
+      detail: 'Break the crust, skim the foam, press slowly.',
+      kind: 'plunge',
+    },
+  ]
+}
+
 function buildPours(
   method: BrewMethod,
   totalWater: number,
@@ -270,6 +405,12 @@ function buildPours(
   }
   if (method === 'Chemex') {
     return buildChemexPours(totalWater, bloomWater)
+  }
+  if (method === 'AeroPress') {
+    return buildAeroPressPours(totalWater, bloomWater)
+  }
+  if (method === 'French Press') {
+    return buildFrenchPressPours(totalWater, bloomWater)
   }
   return buildV60Pours(totalWater, bloomWater)
 }
@@ -312,18 +453,14 @@ function buildRoastGoalNote(roastLevel: RoastLevel, tasteGoal: TasteGoal): strin
 export function generateRecipe(input: BrewInput): GeneratedRecipe {
   const experience: Experience = input.experience ?? 'amateur'
 
-  const baseDose = input.doseGrams ?? profileDefaults[experience].doseGrams
+  const baseDose =
+    input.doseGrams ?? methodDefaults[input.method]?.doseGrams ?? profileDefaults[experience].doseGrams
   const normalizedDose = clamp(baseDose, 10, 40)
 
   const adjustedRatio = effectiveRatio(input)
   const adjustedTemp = effectiveTemp(input)
 
-  const grindIndex = clamp(
-    grindBaseIndexByMethod[input.method] + grindRoastStep[input.roastLevel] + (input.grindOffset ?? 0),
-    0,
-    grindScale.length - 1,
-  )
-  const grind = grindScale[grindIndex]
+  const grind = grindScale[effectiveGrindIndex(input)]
 
   const totalWater = Math.round(normalizedDose * adjustedRatio)
   const bloomWater = Math.round(clamp(Math.max(normalizedDose * 2.2, totalWater * 0.18), 30, 85))
@@ -363,10 +500,9 @@ export function adjustForIssue(input: BrewInput, issue: CupIssue): DialInResult 
     const step = issue === 'sour' ? -1 : 1
     const currentOffset = input.grindOffset ?? 0
     const nextOffset = currentOffset + step
-    const nextIndex =
-      grindBaseIndexByMethod[input.method] + grindRoastStep[input.roastLevel] + nextOffset
+    const candidate: BrewInput = { ...input, grindOffset: nextOffset }
 
-    if (nextIndex < 0 || nextIndex > grindScale.length - 1) {
+    if (effectiveGrindIndex(candidate) === effectiveGrindIndex(input)) {
       return {
         input,
         changed: false,
@@ -379,7 +515,7 @@ export function adjustForIssue(input: BrewInput, issue: CupIssue): DialInResult 
     }
 
     return {
-      input: { ...input, grindOffset: nextOffset },
+      input: candidate,
       changed: true,
       lever: 'grind',
       description: step < 0 ? 'Ground one step finer.' : 'Ground one step coarser.',

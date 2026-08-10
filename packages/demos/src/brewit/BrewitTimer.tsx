@@ -11,6 +11,7 @@ interface StepInfo {
   detail: string;
   startSeconds: number;
   cumulativeGrams: number;
+  kind?: 'pour' | 'steep' | 'plunge';
 }
 
 function parseTimeToSeconds(time: string): number {
@@ -34,6 +35,7 @@ export default function BrewitTimer({ recipe, onHide }: BrewitTimerProps) {
       detail: step.detail,
       startSeconds: parseTimeToSeconds(step.time),
       cumulativeGrams: previousTotal + step.waterGrams,
+      kind: step.kind,
     });
     return acc;
   }, []);
@@ -220,20 +222,33 @@ export default function BrewitTimer({ recipe, onHide }: BrewitTimerProps) {
             <p className="mt-1 font-mono text-xs text-ink/70">Press Start when your kettle is ready.</p>
           </>
         ) : isDrawdown ? (
-          <>
-            <p className="font-mono text-sm font-semibold uppercase tracking-wide text-accent">Drawdown</p>
-            <p className="mt-1 font-mono text-sm font-semibold text-ink">
-              Target time: {recipe.targetDrawdown}
-            </p>
-          </>
+          lastStep?.kind === 'plunge' ? (
+            <>
+              <p className="font-mono text-sm font-semibold uppercase tracking-wide text-accent">Done</p>
+              <p className="mt-1 font-mono text-sm font-semibold text-ink">Pour it out and taste it.</p>
+            </>
+          ) : (
+            <>
+              <p className="font-mono text-sm font-semibold uppercase tracking-wide text-accent">Drawdown</p>
+              <p className="mt-1 font-mono text-sm font-semibold text-ink">
+                Target time: {recipe.targetDrawdown}
+              </p>
+            </>
+          )
         ) : currentStep ? (
           <>
             <p className="font-mono text-sm font-semibold uppercase tracking-wide text-accent">
               {currentStep.label}
             </p>
-            <p className="mt-1 font-mono text-sm font-semibold text-ink">
-              Pour to {currentStep.cumulativeGrams} g
-            </p>
+            {currentStep.kind === 'steep' ? (
+              <p className="mt-1 font-mono text-sm font-semibold text-ink">
+                Hold at {currentStep.cumulativeGrams} g
+              </p>
+            ) : currentStep.kind === 'plunge' ? null : (
+              <p className="mt-1 font-mono text-sm font-semibold text-ink">
+                Pour to {currentStep.cumulativeGrams} g
+              </p>
+            )}
             <p className="mt-1 font-mono text-xs text-ink/70">{currentStep.detail}</p>
           </>
         ) : null}

@@ -85,6 +85,54 @@ describe('generateRecipe - pour steps sum to total water', () => {
     const sum = recipe.pours.reduce((total, step) => total + step.waterGrams, 0);
     expect(sum).toBe(recipe.totalWaterGrams);
   });
+
+  it('AeroPress', () => {
+    const recipe = generateRecipe(input({ method: 'AeroPress' }));
+    const sum = recipe.pours.reduce((total, step) => total + step.waterGrams, 0);
+    expect(sum).toBe(recipe.totalWaterGrams);
+  });
+
+  it('French Press', () => {
+    const recipe = generateRecipe(input({ method: 'French Press' }));
+    const sum = recipe.pours.reduce((total, step) => total + step.waterGrams, 0);
+    expect(sum).toBe(recipe.totalWaterGrams);
+  });
+});
+
+describe('generateRecipe - AeroPress fits a 250ml brewer', () => {
+  it('total water never exceeds 250g', () => {
+    const recipe = generateRecipe(input({ method: 'AeroPress' }));
+    expect(recipe.totalWaterGrams).toBeLessThanOrEqual(250);
+  });
+});
+
+describe('generateRecipe - pour step kind contract', () => {
+  it('AeroPress ends with steep then plunge, both at zero water', () => {
+    const recipe = generateRecipe(input({ method: 'AeroPress' }));
+    const steps = recipe.pours;
+    expect(steps[steps.length - 2].kind).toBe('steep');
+    expect(steps[steps.length - 2].waterGrams).toBe(0);
+    expect(steps[steps.length - 1].kind).toBe('plunge');
+    expect(steps[steps.length - 1].waterGrams).toBe(0);
+  });
+
+  it('French Press ends with steep then plunge, both at zero water', () => {
+    const recipe = generateRecipe(input({ method: 'French Press' }));
+    const steps = recipe.pours;
+    expect(steps[steps.length - 2].kind).toBe('steep');
+    expect(steps[steps.length - 2].waterGrams).toBe(0);
+    expect(steps[steps.length - 1].kind).toBe('plunge');
+    expect(steps[steps.length - 1].waterGrams).toBe(0);
+  });
+
+  it('V60, Kalita Wave and Chemex carry no kind on any step', () => {
+    for (const method of ['V60', 'Kalita Wave', 'Chemex'] as const) {
+      const recipe = generateRecipe(input({ method }));
+      for (const step of recipe.pours) {
+        expect(step.kind).toBeUndefined();
+      }
+    }
+  });
 });
 
 describe('adjustForIssue', () => {

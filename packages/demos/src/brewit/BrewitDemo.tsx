@@ -14,7 +14,7 @@ import { downloadBeanConquerorExport } from './export';
 import BrewitTimer from './BrewitTimer';
 import origins from './origins.json';
 
-const METHODS: BrewMethod[] = ['V60', 'Kalita Wave', 'Chemex'];
+const METHODS: BrewMethod[] = ['V60', 'Kalita Wave', 'Chemex', 'AeroPress', 'French Press'];
 const ROASTS: RoastLevel[] = ['light', 'medium', 'dark'];
 const PROCESSES: ProcessType[] = ['washed', 'natural', 'honey', 'anaerobic', 'other'];
 const TASTE_GOALS: TasteGoal[] = ['balanced', 'bright', 'sweet', 'bold'];
@@ -271,7 +271,8 @@ export default function BrewitDemo() {
                 className="rounded-sm border border-border-paper bg-paper px-3 py-2"
               >
                 <p className="font-mono text-sm font-semibold">
-                  {step.label} - {step.time} - {step.waterGrams} g
+                  {step.label} - {step.time}
+                  {(step.kind === undefined || step.kind === 'pour') && ` - ${step.waterGrams} g`}
                 </p>
                 <p className="mt-1 font-mono text-xs text-ink/70">{step.detail}</p>
               </li>
