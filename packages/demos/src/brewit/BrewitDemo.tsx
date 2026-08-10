@@ -12,6 +12,7 @@ import {
 } from './logic';
 import { downloadBeanConquerorExport } from './export';
 import BrewitTimer from './BrewitTimer';
+import origins from './origins.json';
 
 const METHODS: BrewMethod[] = ['V60', 'Kalita Wave', 'Chemex'];
 const ROASTS: RoastLevel[] = ['light', 'medium', 'dark'];
@@ -41,6 +42,12 @@ export default function BrewitDemo() {
   );
 
   const recipe = useMemo(() => generateRecipe(input), [input]);
+
+  const matchedOrigin = useMemo(() => {
+    const typed = origin.trim().toLowerCase();
+    if (!typed) return undefined;
+    return origins.find((candidate) => candidate.name.toLowerCase() === typed);
+  }, [origin]);
 
   function resetDialIn() {
     setDialIn({});
@@ -182,11 +189,18 @@ export default function BrewitDemo() {
               <input
                 id={`${formId}-origin`}
                 type="text"
+                list={`${formId}-origin-suggestions`}
                 value={origin}
                 onChange={(e) => setOrigin(e.target.value)}
                 placeholder="e.g. Ethiopia Yirgacheffe"
                 className="rounded-sm border border-border-paper bg-paper px-3 py-2 text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               />
+              <datalist id={`${formId}-origin-suggestions`}>
+                {origins.map((candidate) => (
+                  <option key={candidate.name} value={candidate.name} />
+                ))}
+              </datalist>
+              {matchedOrigin && <p className="font-mono text-xs text-ink/70">{matchedOrigin.description}</p>}
             </div>
 
             <div className="flex items-center gap-3">
