@@ -100,9 +100,27 @@ describe('generateRecipe - pour steps sum to total water', () => {
 });
 
 describe('generateRecipe - AeroPress fits a 250ml brewer', () => {
-  it('total water never exceeds 250g', () => {
-    const recipe = generateRecipe(input({ method: 'AeroPress' }));
+  const doses = [10, 15, 20, 25, 30, 40];
+
+  it.each(doses)('total water never exceeds 250g at dose %ig', (doseGrams) => {
+    const recipe = generateRecipe(input({ method: 'AeroPress', doseGrams }));
     expect(recipe.totalWaterGrams).toBeLessThanOrEqual(250);
+  });
+
+  it.each(doses)('pour increments still sum to totalWaterGrams at dose %ig', (doseGrams) => {
+    const recipe = generateRecipe(input({ method: 'AeroPress', doseGrams }));
+    const sum = recipe.pours.reduce((total, step) => total + step.waterGrams, 0);
+    expect(sum).toBe(recipe.totalWaterGrams);
+  });
+
+  it('adds a reduced-dose note when the cap actually reduces the dose', () => {
+    const recipe = generateRecipe(input({ method: 'AeroPress', doseGrams: 20, ratio: 16 }));
+    expect(recipe.notes.some((note) => note.includes('Dose reduced'))).toBe(true);
+  });
+
+  it('adds no reduced-dose note when the dose already fits', () => {
+    const recipe = generateRecipe(input({ method: 'AeroPress', doseGrams: 15, ratio: 14 }));
+    expect(recipe.notes.some((note) => note.includes('Dose reduced'))).toBe(false);
   });
 });
 

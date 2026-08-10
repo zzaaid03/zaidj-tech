@@ -148,6 +148,10 @@ const methodDefaults: Partial<Record<BrewMethod, { doseGrams: number; ratio: num
   AeroPress: { doseGrams: 15, ratio: 14 },
 }
 
+const maxWaterByMethod: Partial<Record<BrewMethod, number>> = {
+  AeroPress: 250,
+}
+
 const baseTempByMethod: Record<BrewMethod, number> = {
   V60: 94,
   'Kalita Wave': 94,
@@ -462,8 +466,21 @@ export function generateRecipe(input: BrewInput): GeneratedRecipe {
 
   const grind = grindScale[effectiveGrindIndex(input)]
 
-  const totalWater = Math.round(normalizedDose * adjustedRatio)
-  const bloomWater = Math.round(clamp(Math.max(normalizedDose * 2.2, totalWater * 0.18), 30, 85))
+  const waterCap = maxWaterByMethod[input.method]
+  const doseCapped = waterCap !== undefined && normalizedDose * adjustedRatio > waterCap
+  const dose = doseCapped ? Math.max(10, Math.floor(waterCap / adjustedRatio)) : normalizedDose
+
+  const totalWater = Math.round(dose * adjustedRatio)
+  const bloomWater = Math.round(clamp(Math.max(dose * 2.2, totalWater * 0.18), 30, 85))
+
+  const notes = [
+    buildRoastGoalNote(input.roastLevel, input.tasteGoal),
+    buildProcessNote(input.process),
+    buildOriginNote(input.origin),
+  ]
+  if (doseCapped) {
+    notes.push(`Dose reduced to ${dose} g so the brew fits a standard ${input.method}.`)
+  }
 
   return {
     title: `${input.method} Recipe | ${input.tasteGoal.toUpperCase()} focus`,
@@ -474,11 +491,7 @@ export function generateRecipe(input: BrewInput): GeneratedRecipe {
     targetDrawdown: targetTimeByMethod[input.method],
     grind,
     pours: buildPours(input.method, totalWater, bloomWater),
-    notes: [
-      buildRoastGoalNote(input.roastLevel, input.tasteGoal),
-      buildProcessNote(input.process),
-      buildOriginNote(input.origin),
-    ],
+    notes,
     troubleshooting: {
       sour: 'Go finer by 1 click, raise temp by 1°C, or extend brew time by ~10s.',
       bitter: 'Go coarser by 1 click, drop temp by 1°C, or reduce agitation on final pour.',
