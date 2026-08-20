@@ -3,8 +3,10 @@ import styles from './life-os.module.css';
 import ConnectGmailModal from './screens/ConnectGmailModal';
 import ScanScreen from './screens/ScanScreen';
 import ResultsScreen from './screens/ResultsScreen';
+import SubscriptionsScreen from './screens/SubscriptionsScreen';
 import AddFileScreen from './screens/AddFileScreen';
 import SearchScreen from './screens/SearchScreen';
+import WeeklyReviewScreen from './screens/WeeklyReviewScreen';
 
 export interface SuggestedTask {
   id: string;
@@ -29,6 +31,17 @@ export interface StoredFile {
   // A private file never has these: it skips the model entirely.
   synonyms: string[];
   isPrivate: boolean;
+}
+
+export interface SubscriptionCandidate {
+  id: string;
+  name: string;
+  // null means the email never stated one, including a bare "$" (equally
+  // USD, CAD and AUD): the row still gets added honestly, never guessed.
+  amount: number | null;
+  currency: string | null;
+  cycle: 'monthly' | 'yearly' | null;
+  sourceHint: string;
 }
 
 const INITIAL_TASKS: SuggestedTask[] = [
@@ -92,20 +105,42 @@ const INITIAL_JOBS: JobApplication[] = [
   },
 ];
 
+const INITIAL_SUBSCRIPTIONS: SubscriptionCandidate[] = [
+  {
+    id: 's1',
+    name: 'Spotify Premium',
+    amount: 10.99,
+    currency: '€',
+    cycle: 'monthly',
+    sourceHint: 'Renewal receipt from Spotify, dated today.',
+  },
+  {
+    id: 's2',
+    name: 'iCloud+ storage renewal',
+    amount: null,
+    currency: null,
+    cycle: null,
+    sourceHint: 'Renewal notice from Apple with no amount stated. The row still gets added, not guessed.',
+  },
+];
+
 const SCREENS = [
   { label: 'Connect Gmail' },
   { label: 'Scan Inbox' },
   { label: 'Scanning' },
   { label: 'Results' },
   { label: 'Task added' },
+  { label: 'Subscriptions' },
   { label: 'Add a file' },
   { label: 'Search' },
+  { label: 'Weekly Review' },
 ] as const;
 
 export default function LifeOsDemo() {
   const [screen, setScreen] = useState(0);
   const [tasks, setTasks] = useState<SuggestedTask[]>(INITIAL_TASKS);
   const [jobs, setJobs] = useState<JobApplication[]>(INITIAL_JOBS);
+  const [subscriptions, setSubscriptions] = useState<SubscriptionCandidate[]>(INITIAL_SUBSCRIPTIONS);
   const [files, setFiles] = useState<StoredFile[]>(INITIAL_FILES);
   const [snackbarMessage, setSnackbarMessage] = useState<string | null>(null);
 
@@ -155,6 +190,14 @@ export default function LifeOsDemo() {
     setJobs((prev) => prev.filter((j) => j.id !== id));
   }, []);
 
+  const handleAddSubscription = useCallback((id: string) => {
+    setSubscriptions((prev) => prev.filter((s) => s.id !== id));
+  }, []);
+
+  const handleDismissSubscription = useCallback((id: string) => {
+    setSubscriptions((prev) => prev.filter((s) => s.id !== id));
+  }, []);
+
   const handleAddFile = useCallback(
     (note: string, isPrivate: boolean) => {
       setFiles((prev) => [
@@ -168,7 +211,7 @@ export default function LifeOsDemo() {
           isPrivate,
         },
       ]);
-      goTo(6);
+      goTo(7);
     },
     [goTo],
   );
@@ -246,8 +289,16 @@ export default function LifeOsDemo() {
                 snackbarMessage={screen === 4 ? snackbarMessage : null}
               />
             )}
-            {screen === 5 && <AddFileScreen onAdd={handleAddFile} />}
-            {screen === 6 && <SearchScreen files={files} />}
+            {screen === 5 && (
+              <SubscriptionsScreen
+                candidates={subscriptions}
+                onAdd={handleAddSubscription}
+                onDismiss={handleDismissSubscription}
+              />
+            )}
+            {screen === 6 && <AddFileScreen onAdd={handleAddFile} />}
+            {screen === 7 && <SearchScreen files={files} />}
+            {screen === 8 && <WeeklyReviewScreen />}
           </div>
         </div>
 

@@ -459,3 +459,102 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   z-index: 5;
 }
+
+/* ---------- subscriptions screen ---------- */
+
+.subAmount {
+  color: var(--lo-text);
+  font-weight: 700;
+}
+
+.amountUnstated {
+  color: var(--lo-muted);
+  font-style: italic;
+}
+
+.editorRow {
+  display: flex;
+  gap: 12px;
+}
+
+.editorField {
+  flex: 1;
+  min-width: 0;
+}
+
+.ghostButton {
+  width: 100%;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--lo-muted);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 0;
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  margin-top: 10px;
+}
+
+.ghostButton:hover {
+  color: var(--lo-text);
+}
+
+.ghostButton:focus-visible {
+  outline: 2px solid var(--lo-primary);
+  outline-offset: 2px;
+}
+
+/* ---------- weekly review screen ---------- */
+
+.reviewWeekLabel {
+  color: var(--lo-muted);
+  font-size: 12px;
+  margin: 0 0 4px;
+}
+
+.reviewRowLabel {
+  color: var(--lo-muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin: 14px 0 6px;
+}
+
+.reviewRowLabel:first-child {
+  margin-top: 0;
+}
+
+.reviewList {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--lo-text);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.reviewList:empty::before {
+  content: 'None';
+  color: var(--lo-muted);
+}
+
+.statusCountGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.statusCountChip {
+  composes: statusPill;
+  background: rgba(147, 160, 153, 0.16);
+  color: var(--lo-text);
+  white-space: nowrap;
+}
+
+.currencyLine {
+  color: var(--lo-text);
+  font-size: 15px;
+  font-weight: 700;
+  margin: 6px 0;
+}
