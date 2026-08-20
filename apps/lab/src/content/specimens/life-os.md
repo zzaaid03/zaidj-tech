@@ -3,7 +3,7 @@ specimenId: "SPEC-001"
 title: "Life OS"
 tagline: "An AI that reads your inbox and keeps your job applications up to date on its own."
 year: 2026
-stack: ["Flutter", "Dart", "Supabase", "PostgreSQL", "Supabase Storage", "Groq / Llama 3.3 70B", "Gmail API"]
+stack: ["Flutter", "Dart", "Supabase", "PostgreSQL", "Supabase Storage", "Groq / GPT-OSS 120B", "Gmail API"]
 status: "shipped"
 demoType: "playable"
 repoUrl: "https://github.com/zzaaid03/life-os"
@@ -30,13 +30,23 @@ keeping it in sync was itself a chore. I wanted one place that did the syncing f
 
 The AI isn't one feature bolted on the side, and it also isn't everywhere. Three server-side functions call the model. A fourth deliberately does not.
 
-**Inbox scanning.** It reads incoming mail looking for two things: an update to a job application,
-and anything else that needs an action from you, a bill due, an appointment, a subscription about
-to renew, a delivery to collect. For a job update it extracts the company and role and, if that
-application already exists, updates its status rather than creating a duplicate. It handles the
-obvious cases and the indirect ones, where neither company nor role is ever stated plainly. For a
-task it fills in a real due date when the email states one plainly, and leaves it blank rather than
-guess when it does not. Mail that fits neither is ignored.
+**Inbox scanning.** It reads incoming mail looking for several different things: an update to a job
+application, anything else that needs an action from you, a bill due, an appointment, a delivery to
+collect, and a subscription starting or renewing. For a job update it extracts the company and role
+and, if that application already exists, updates its status rather than creating a duplicate. It
+handles the obvious cases and the indirect ones, where neither company nor role is ever stated
+plainly. For a task it fills in a real due date when the email states one plainly, and leaves it
+blank rather than guess when it does not. A subscription is proposed as its own review card rather
+than folded into the task list, and adding one creates a real subscription record rather than a
+task that gets checked off and forgotten. Mail that fits none of that is ignored.
+
+**Subscription tracking.** Once a subscription exists, the app can answer a question the old task
+list never really could: what am I paying for. Amounts are stored as whole cents rather than a
+floating point number, because floating point money turns into something like
+30.299999999999997 the moment you add a few of them together for a total. Currency is stored per
+row and never converted. There's no exchange rate source built into the app, and making one up
+would put an invented number on a screen that's supposed to be about real money, so totals across
+currencies show as separate lines rather than one combined figure.
 
 **Goal decomposition.** You type a goal in plain language and get back an ordered set of small,
 doable tasks that lead to it. A goal you'd otherwise never start becomes something you can begin
@@ -52,10 +62,19 @@ same thing, instantly and for free.
 
 **Daily brief.** A short morning summary of what is overdue, what is due today, your top priority, and where each application stands. This one has no model in it at all. Every sentence is assembled in code from your own data. A language model would have cost tokens to restate numbers I already have, and it could get them wrong. Counts about your own life are the last thing that should be hallucinated.
 
-**Why Llama 3.3 70B on Groq.** Cost, mainly. This is an app I use every day rather than a funded
+**The weekly review.** Every week that's ended, Monday to Monday, gets a summary once it's actually
+over, so the numbers in it are never "so far", always final. It reports only what the underlying
+rows can support. There's no table anywhere that records when a job application's status changed,
+only what it is now, so the review can say an application's gone quiet, but it can't say one moved
+to interview this week, and it doesn't pretend to know that.
+
+**Why GPT-OSS 120B on Groq.** Cost, mainly. This is an app I use every day rather than a funded
 product, and a per-token bill would have killed it before it ever became useful. Groq's free tier
 covers the volume I actually need. The two jobs I ask of the model (read an email and return
 structured fields, turn a sentence into a task list) don't require a frontier model to do well.
+Groq decommissioned the model I'd originally picked, Llama 3.3 70B, and every free model on the
+platform turned out to share the same rate limit, so a slower request batch was the actual fix,
+not a different model.
 
 ## The hard part
 
