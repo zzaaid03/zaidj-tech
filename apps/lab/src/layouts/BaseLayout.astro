@@ -9,6 +9,19 @@ export interface Props {
 
 const { title, description } = Astro.props;
 const canonicalUrl = new URL(Astro.url.pathname, 'https://lab.zaidj.tech').toString();
+const websiteJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'WebSite',
+	'@id': 'https://lab.zaidj.tech/#website',
+	name: 'The Lab',
+	url: 'https://lab.zaidj.tech/',
+	author: {
+		'@type': 'Person',
+		'@id': 'https://www.zaidj.tech/#person',
+		name: 'Zaid Jarrar',
+		url: 'https://www.zaidj.tech/',
+	},
+};
 ---
 
 <html lang="en">
@@ -22,6 +35,7 @@ const canonicalUrl = new URL(Astro.url.pathname, 'https://lab.zaidj.tech').toStr
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<link rel="canonical" href={canonicalUrl} />
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(websiteJsonLd)} />
 
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content={title} />
