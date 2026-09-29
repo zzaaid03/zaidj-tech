@@ -3,7 +3,7 @@ specimenId: "SPEC-001"
 title: "Life OS"
 tagline: "An AI that reads your inbox and keeps your job applications up to date on its own."
 year: 2026
-stack: ["Flutter", "Dart", "Supabase", "PostgreSQL", "Supabase Storage", "Groq / GPT-OSS 120B", "Gmail API"]
+stack: ["Flutter", "Dart", "Supabase", "PostgreSQL", "Supabase Storage", "OpenAI / GPT-6 Luna", "Gmail API"]
 status: "shipped"
 demoType: "playable"
 repoUrl: "https://github.com/zzaaid03/life-os"
@@ -28,7 +28,7 @@ keeping it in sync was itself a chore. I wanted one place that did the syncing f
 
 ## What the AI actually does
 
-The AI isn't one feature bolted on the side, and it also isn't everywhere. Three server-side functions call the model. A fourth deliberately does not.
+The AI isn't one feature bolted on the side, and it also isn't everywhere. Four server-side functions call the model. A fifth deliberately does not.
 
 **Inbox scanning.** It reads incoming mail looking for several different things: an update to a job
 application, anything else that needs an action from you, a bill due, an appointment, a delivery to
@@ -68,13 +68,14 @@ rows can support. There's no table anywhere that records when a job application'
 only what it is now, so the review can say an application's gone quiet, but it can't say one moved
 to interview this week, and it doesn't pretend to know that.
 
-**Why GPT-OSS 120B on Groq.** Cost, mainly. This is an app I use every day rather than a funded
-product, and a per-token bill would have killed it before it ever became useful. Groq's free tier
-covers the volume I actually need. The two jobs I ask of the model (read an email and return
-structured fields, turn a sentence into a task list) don't require a frontier model to do well.
-Groq decommissioned the model I'd originally picked, Llama 3.3 70B, and every free model on the
-platform turned out to share the same rate limit, so a slower request batch was the actual fix,
-not a different model.
+**Why OpenAI, after two free tiers.** I started on Groq's free tier, because a per-token bill would
+have killed an app I use every day before it ever became useful. Groq decommissioned the model I'd
+originally picked, Llama 3.3 70B, and every free model on the platform turned out to share the same
+rate limit. Mistral's free plan was next, and it rate-limited me while its usage page still showed
+zero. So the model calls now go to OpenAI's GPT-6 Luna on a paid key, which I also prefer for
+privacy: OpenAI does not train on API data by default, and the thing I'm sending it is my own inbox.
+They all go through one shared client, so changing provider means new secrets and a redeploy, not a
+code change.
 
 ## The hard part
 
